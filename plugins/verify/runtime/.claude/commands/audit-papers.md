@@ -1,3 +1,9 @@
+---
+name: audit-papers
+description: Search recent RL theory papers, verify their theorem dependencies with the trusted harness, and maintain a structured audit log
+user_invocable: true
+---
+
 # /audit-papers — Audit RL Theory Papers from Arxiv
 
 Search arxiv for RL theory papers, fetch them, and run `/verifyRL-paper` on each to verify ALL lemmas and theorems. Maintains a structured audit log tracking verification outcomes across papers.

@@ -5,16 +5,9 @@ A standalone verification system built around the exact Claude workflows in
 runtime setup, persistence, sealed audits, trusted recompilation, and the
 bundled `RLGeneralization` Lean library.
 
-## Install the plugin
+## Install and invoke in Claude Code — no clone required
 
-Codex:
-
-```bash
-codex plugin marketplace add jin-yidan/verify-harness --ref main
-codex plugin add verify@verify
-```
-
-Claude Code:
+Install the plugin:
 
 ```bash
 claude plugin marketplace add https://github.com/jin-yidan/verify-harness.git
@@ -34,13 +27,25 @@ or call an exact packaged Claude command:
 ```text
 /verify:verify-falsify
 /verify:verify-full-process
+/verify:verify-hypothesis-audit
 ```
+
+Run `/help` in Claude Code to see every packaged command. Claude Code
+namespaces marketplace commands with the plugin name, so direct invocation
+uses `/verify:<command>` rather than the repo-local `/verify-<command>` form.
 
 The plugin routes natural language to the same canonical command specifications
 and adds the harness safeguards around them. It installs its bundled engine
 into isolated user data after asking permission and never fetches another
 Verify repository. A first full Lean check may still download the pinned Lean
 toolchain and upstream Mathlib dependencies.
+
+## Install in Codex
+
+```bash
+codex plugin marketplace add jin-yidan/verify-harness --ref main
+codex plugin add verify@verify
+```
 
 ## Run from a clone
 

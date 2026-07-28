@@ -1,3 +1,9 @@
+---
+name: verify-full-process
+description: Verify a complete mathematical theorem and submitted proof through the full RLVerify workflow, trusted harness, and Lean kernel checks
+user_invocable: true
+---
+
 # /verify-full-process — RLVerify: Verify a Proof's Correctness
 
 Verify whether a theorem and its proof sketch are correct by attempting to formalize them in Lean 4. The tool reports VERIFIED (with complete code) or UNVERIFIED (with the specific failure point).

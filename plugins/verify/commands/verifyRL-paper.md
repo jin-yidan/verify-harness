@@ -1,3 +1,9 @@
+---
+name: verifyRL-paper
+description: Verify a multi-lemma mathematical paper with dependency extraction, circularity checks, trusted harness execution, and Lean evidence
+user_invocable: true
+---
+
 # /verifyRL-paper — RLVerify: Verify a Multi-Lemma Paper Proof
 
 Verify a full proof from a paper (LaTeX or natural language) that contains multiple interdependent lemmas/theorems. Automatically extracts the dependency structure, detects circularity, and verifies each lemma in topological order.

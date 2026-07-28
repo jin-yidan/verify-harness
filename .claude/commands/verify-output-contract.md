@@ -1,3 +1,9 @@
+---
+name: verify-output-contract
+description: Apply the standard RLVerify result-card vocabulary, evidence weights, and phase-specific reporting contract
+user_invocable: true
+---
+
 # /verify-* output contract — the standard result card
 
 Every `/verify-*` component ends its run by printing ONE **result card**. The
