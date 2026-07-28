@@ -1,0 +1,18 @@
+{
+  "id": "circular-proof",
+  "title": "True theorem argued from its own conclusion",
+  "recommended_request": "Audit this proof for circular reasoning and then determine whether only an alternative proof verifies the theorem.",
+  "primary_workflow": "hypotheses",
+  "situation": "The proof substitutes the desired conclusion x = 0 before establishing it.",
+  "expected": {
+    "likely": "SUSPECTED",
+    "allowed": ["SUSPECTED", "THEOREM_VERIFIED_ALTERNATIVE_PROOF", "UNKNOWN"],
+    "must_not_report": ["VERIFIED", "REFUTED"],
+    "reason": "The theorem is true, but the submitted circular argument is not a valid proof."
+  },
+  "library_policy": {
+    "decision": "not-candidate",
+    "reason": "The valid theorem is standard and already represented in foundational algebra libraries."
+  }
+}
+

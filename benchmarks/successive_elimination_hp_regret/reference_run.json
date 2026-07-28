@@ -1,0 +1,151 @@
+{
+  "fixture": "successive_elimination_hp_regret",
+  "lemmas": [
+    {
+      "name": "regret_decomposition",
+      "kind": "library",
+      "library_match": "RLGeneralization.Bandits.PseudoregretEqSumGapMulPullcount.pseudoRegret_eq_sum_gap_mul_pullCount",
+      "statement": "R_T = sum_i gap_i * N_i(T) (counting identity)",
+      "proof": "",
+      "code": "",
+      "compiled": false,
+      "compile_error": "",
+      "note": ""
+    },
+    {
+      "name": "hoeffding_fixed_t",
+      "kind": "library",
+      "library_match": "RLGeneralization.Bandits.BanditConcentration.prefix_arm_mean_concentration",
+      "statement": "P(|muhat_{i,t} - mu_i| > r(t)) <= 2 exp(-2 t r(t)^2) at FIXED t (valid here: phase count is deterministic per (i,t) pair)",
+      "proof": "",
+      "code": "",
+      "compiled": false,
+      "compile_error": "",
+      "note": ""
+    },
+    {
+      "name": "good_event_union_bound",
+      "kind": "novel",
+      "library_match": "",
+      "statement": "P(E^c) <= K * delta/K = delta — FAILS AUDIT: event E quantifies over every arm AND every completed phase t, union bound counts only the K arms; per-(i,t) failure mass delta/K is constant in t, honest bound scales with number of phases (library's own good event needs L = log(2KT/delta))",
+      "proof": "",
+      "code": "",
+      "compiled": false,
+      "compile_error": "",
+      "note": ""
+    },
+    {
+      "name": "optimal_arm_survives",
+      "kind": "novel",
+      "library_match": "",
+      "statement": "theorem est_le_est_add_two_radius (a b x y r : ℝ)\n    (ha : |a - x| ≤ r) (hb : |b - y| ≤ r) (hxy : x ≤ y) :\n    a ≤ b + 2 * r",
+      "proof": "have h1 := abs_le.mp ha\n  have h2 := abs_le.mp hb\n  linarith [h1.1, h1.2, h2.1, h2.2]",
+      "code": "import Mathlib.Data.Real.Basic\nimport Mathlib.Data.Finset.Basic\nimport Mathlib.Algebra.BigOperators.Group.Finset.Basic\nimport Mathlib.Tactic.Linarith\n\nopen Finset BigOperators\n\ntheorem est_le_est_add_two_radius (a b x y r : ℝ)\n    (ha : |a - x| ≤ r) (hb : |b - y| ≤ r) (hxy : x ≤ y) :\n    a ≤ b + 2 * r := by\n  have h1 := abs_le.mp ha\n  have h2 := abs_le.mp hb\n  linarith [h1.1, h1.2, h2.1, h2.2]",
+      "compiled": true,
+      "compile_error": "",
+      "note": ""
+    },
+    {
+      "name": "suboptimal_elim_criterion",
+      "kind": "novel",
+      "library_match": "",
+      "statement": "theorem est_gap_gt_of_true_gap_gt_four_radius (a b x y r : ℝ)\n    (ha : |a - x| ≤ r) (hb : |b - y| ≤ r) (h : 4 * r < x - y) :\n    2 * r < a - b",
+      "proof": "have h1 := abs_le.mp ha\n  have h2 := abs_le.mp hb\n  linarith [h1.1, h1.2, h2.1, h2.2]",
+      "code": "import Mathlib.Data.Real.Basic\nimport Mathlib.Data.Finset.Basic\nimport Mathlib.Algebra.BigOperators.Group.Finset.Basic\nimport Mathlib.Tactic.Linarith\n\nopen Finset BigOperators\n\ntheorem est_gap_gt_of_true_gap_gt_four_radius (a b x y r : ℝ)\n    (ha : |a - x| ≤ r) (hb : |b - y| ≤ r) (h : 4 * r < x - y) :\n    2 * r < a - b := by\n  have h1 := abs_le.mp ha\n  have h2 := abs_le.mp hb\n  linarith [h1.1, h1.2, h2.1, h2.2]",
+      "compiled": true,
+      "compile_error": "",
+      "note": ""
+    },
+    {
+      "name": "elimination_time_threshold",
+      "kind": "novel",
+      "library_match": "",
+      "statement": "t > 4L/Delta^2 => Delta > 4 sqrt(L/(2t)) (Step 4) — REFUTED, correct threshold is 8L/Delta^2",
+      "proof": "",
+      "code": "",
+      "compiled": false,
+      "compile_error": "",
+      "note": ""
+    },
+    {
+      "name": "pull_count_bound",
+      "kind": "novel",
+      "library_match": "",
+      "statement": "N_i(T) <= floor(4L/Delta_i^2)+1 (Step 5) — BLOCKED downstream of elimination_time_threshold",
+      "proof": "",
+      "code": "",
+      "compiled": false,
+      "compile_error": "",
+      "note": ""
+    },
+    {
+      "name": "regret_assembly",
+      "kind": "novel",
+      "library_match": "",
+      "statement": "R_T <= sum_i (Delta_i + 4L/Delta_i) (Step 6) — BLOCKED downstream of pull_count_bound and good_event_union_bound",
+      "proof": "",
+      "code": "",
+      "compiled": false,
+      "compile_error": "",
+      "note": ""
+    }
+  ],
+  "main_statement": "",
+  "main_proof": "",
+  "main_code": "",
+  "compiled": false,
+  "compile_error": "",
+  "novel_added": [
+    "est_le_est_add_two_radius",
+    "est_gap_gt_of_true_gap_gt_four_radius"
+  ],
+  "axioms": [],
+  "kernel_axioms": [],
+  "has_sorry_ax": false,
+  "sketch_code": "",
+  "falsifications": [
+    {
+      "block": "optimal_arm_survives",
+      "verdict": "PASSED",
+      "claim": "|a-x|<=r and |b-y|<=r and x<=y  =>  a <= b + 2r",
+      "instances": 200000,
+      "hyp_satisfied": 100042,
+      "violations": 0,
+      "max_violation": 0.0,
+      "tolerance": 1e-09,
+      "certificate": null,
+      "reason": ""
+    },
+    {
+      "block": "suboptimal_elim_criterion",
+      "verdict": "PASSED",
+      "claim": "|a-x|<=r and |b-y|<=r and x-y>4r  =>  a-b > 2r",
+      "instances": 200000,
+      "hyp_satisfied": 66648,
+      "violations": 0,
+      "max_violation": 0.0,
+      "tolerance": 1e-09,
+      "certificate": null,
+      "reason": ""
+    },
+    {
+      "block": "elimination_time_threshold",
+      "verdict": "REFUTED",
+      "claim": "t > 4L/Delta^2  =>  Delta > 4*sqrt(L/(2t))",
+      "instances": 199995,
+      "hyp_satisfied": 199995,
+      "violations": 191445,
+      "max_violation": 0.4142,
+      "tolerance": 1e-09,
+      "certificate": {
+        "L": "1",
+        "Delta": "1/2",
+        "t": 17,
+        "check": "hypothesis 17 > 4*1/(1/2)^2 = 16 holds; claim needs Delta^2 > 8L/t i.e. 1/4 > 8/17 — false (exact in Q)"
+      },
+      "reason": ""
+    }
+  ],
+  "verdict": "UNVERIFIED/WRONG",
+  "verdict_reason": "two independent failures: (1) elimination_time_threshold (Step 4) is false — t > 4L/Delta^2 does not imply Delta > 4 r(t); exact counterexample L=1, Delta=1/2, t=17 (correct threshold is 8L/Delta^2, so the theorem's constant 4 ln(2K/delta)/Delta_i should be 8 ln(2K/delta)/Delta_i); (2) good_event_union_bound (Step 1) is invalid — the event quantifies over every completed phase t but the union bound counts only the K arms; the per-(i,t) failure mass delta/K is constant in t, so the honest bound grows with the number of phases and P(E) >= 1-delta does not follow with r(t) free of T"
+}

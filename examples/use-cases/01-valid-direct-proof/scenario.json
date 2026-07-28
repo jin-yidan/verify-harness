@@ -1,0 +1,18 @@
+{
+  "id": "valid-direct-proof",
+  "title": "Correct theorem with a faithful direct proof",
+  "recommended_request": "Fully verify this theorem and submitted proof in Lean.",
+  "primary_workflow": "full",
+  "situation": "Both the theorem and its submitted proof are correct and directly formalizable.",
+  "expected": {
+    "likely": "VERIFIED",
+    "allowed": ["VERIFIED", "INCOMPLETE", "UNKNOWN"],
+    "must_not_report": ["REFUTED"],
+    "reason": "VERIFIED still requires trusted recompilation, acceptable axiom closure, and all workflow gates."
+  },
+  "library_policy": {
+    "decision": "not-candidate",
+    "reason": "The fact is elementary and already available in the foundational library."
+  }
+}
+

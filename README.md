@@ -1,10 +1,9 @@
 # Verified Skills
 
-Agent skills and Claude Code commands for the
-[Verify](https://github.com/jin-yidan/verified-rl) mathematical-verification
-engine.
+A standalone distribution of Verify: agent routing, mathematical-verification
+workflows, the Python harness, and the `RLGeneralization` Lean library.
 
-## Install
+## Install the plugin
 
 Codex:
 
@@ -28,20 +27,32 @@ Check whether this proof satisfies every hypothesis.
 Fully verify this theorem and proof in Lean.
 ```
 
-Verify selects the smallest suitable workflow. On first use, it asks before
-installing the versioned engine from `verified-rl`; full verification may also
-require a separate Lean installation.
+The plugin routes the request and installs its bundled engine into isolated
+user data after asking permission. It does not fetch code from another Verify
+repository. Full Lean checks still download the pinned Lean toolchain and
+upstream Mathlib dependencies when they are not already installed.
 
-## Direct commands
+## Run from a clone
 
-When working from a clone of this repository in Claude Code, the commands in
-`.claude/commands/` are available directly, including:
+Requirements: Python 3.10 or newer and Lean through `elan`.
 
-- `/verify-falsify`
-- `/verify-hypothesis-audit`
-- `/verify-full-process`
-- `/verifyRL-paper`
-- `/formalize`
+```bash
+python3 -m venv .venv
+.venv/bin/python -m pip install -e ".[pdf]"
+lake update SLT
+bash scripts/prepare_slt.sh
+lake exe cache get
+lake build RLGeneralization
+(cd tools/repl && lake build repl)
+```
 
-Standalone Codex skill sources are in `codex-skills/`. The installable
-cross-agent plugin is in `plugins/verify/`.
+Examples:
+
+```bash
+.venv/bin/python -m rlverify retrieve "Bellman contraction"
+.venv/bin/python -m rlverify falsify --example ucb_mutated
+.venv/bin/python -m harness verify path/to/proof --backend codex --report
+```
+
+Claude commands are in `.claude/commands/`; standalone Codex skills are in
+`codex-skills/`; the installable cross-agent plugin is in `plugins/verify/`.

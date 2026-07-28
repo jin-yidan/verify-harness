@@ -3,7 +3,6 @@
 
 from __future__ import annotations
 
-import importlib.util
 import os
 import sys
 from pathlib import Path
@@ -17,12 +16,9 @@ def main() -> int:
     if installed.is_file():
         os.execv(str(installed), [str(installed), "-m", "verify_app.mcp_server"])
 
-    if importlib.util.find_spec("verify_app.mcp_server") is not None:
-        os.execv(sys.executable, [sys.executable, "-m", "verify_app.mcp_server"])
-
     print(
-        "Verify engine is not installed. The Verify skill can run "
-        "scripts/verify_runtime.py after obtaining user permission.",
+        "The bundled Verify engine is not installed yet. The Verify skill can "
+        "run scripts/verify_runtime.py after obtaining user permission.",
         file=sys.stderr,
     )
     return 78

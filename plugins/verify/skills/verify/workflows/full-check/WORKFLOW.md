@@ -66,6 +66,12 @@ MCP session cannot author the sealed triage and back-translation gates.
    For the fallback, use temporary workspace files for pasted theorem/proof
    content. Do not place long or sensitive proof text into shell arguments. Run
    the module from the runtime source directory returned by the root preflight.
+   Preserve the foreground host's solving capability: pass its model,
+   reasoning effort, service tier, and an adequate agent budget explicitly when
+   available. Also pass concise `agent_context` with useful notation, prior
+   library discoveries, and failed Lean attempts from the active conversation.
+   Do not put new assumptions or proposed repairs in that context. The harness
+   treats it as non-authoritative guidance, never as mathematical evidence.
 8. Let the harness run sealed triage before launching the expensive full-proof
    agent. For each serious triage or hypothesis-audit finding, run the bounded
    targeted-confirmation profile. It may seek a concrete witness and compile a

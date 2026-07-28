@@ -1,0 +1,3 @@
+Let y = x - 3. The square of every real number is nonnegative, so y² ≥ 0.
+Substituting y = x - 3 gives (x - 3)² ≥ 0.
+

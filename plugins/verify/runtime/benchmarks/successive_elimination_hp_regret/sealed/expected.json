@@ -1,0 +1,26 @@
+{
+  "fixture": "successive_elimination_hp_regret",
+  "source": "claude_authored_planted",
+  "verdict_class": "UNVERIFIED/SUSPECTED",
+  "flaws": [
+    {
+      "id": "union_bound_phases",
+      "location": "Step 1",
+      "signature_keywords": ["union bound", "phase", "every completed phase", "2KT"],
+      "min_keyword_hits": 2
+    },
+    {
+      "id": "factor_two_threshold",
+      "location": "Step 4",
+      "signature_keywords": ["8L", "8 ln", "threshold", "counterexample"],
+      "min_keyword_hits": 2
+    }
+  ],
+  "sound_block_hints": ["optimal_arm_survives", "suboptimal_elim_criterion",
+                        "regret_decomposition", "hoeffding_fixed_t"],
+  "expected_library_matches": [
+    "pseudoRegret_eq_sum_gap_mul_pullCount",
+    "prefix_arm_mean_concentration"
+  ],
+  "min_kernel_backed_blocks": 2
+}

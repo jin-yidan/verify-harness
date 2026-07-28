@@ -1,0 +1,24 @@
+{
+  "id": "kernel-only-hidden-sorry",
+  "title": "Hidden sorry detectable only by transitive kernel-closure audit",
+  "recommended_request": "Recheck the supplied Lean certificate, including its complete kernel axiom closure.",
+  "primary_workflow": "recheck",
+  "situation": "The theorem and prose proof are correct, and the top-level Lean source has no sorry token. Its imported proof dependency contains a hidden sorry.",
+  "certificate": {
+    "entrypoint": "certificate/Main.lean",
+    "dependency": "certificate/HiddenDependency.lean",
+    "top_level_contains_sorry": false,
+    "expected_compile": true,
+    "expected_kernel_axioms": ["sorryAx"]
+  },
+  "expected": {
+    "likely": "INCOMPLETE",
+    "allowed": ["INCOMPLETE", "UNKNOWN"],
+    "must_not_report": ["VERIFIED", "REFUTED"],
+    "reason": "The top-level certificate compiles, but #print axioms exposes transitive sorryAx. This invalidates the submitted certificate without refuting the true theorem."
+  },
+  "library_policy": {
+    "decision": "not-candidate",
+    "reason": "A certificate whose kernel closure contains sorryAx is never reusable evidence."
+  }
+}

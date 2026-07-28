@@ -1,16 +1,16 @@
 #!/usr/bin/env python3
-"""First-use runtime manager for the Verify plugin.
+"""First-use runtime manager for the standalone Verify plugin.
 
-The plugin itself is copied into an agent cache, so it cannot import engine
-code from the marketplace checkout. This helper installs a versioned engine
-checkout in user data after the agent has obtained explicit permission.
+The plugin carries its complete Python and Lean source tree in ``runtime/``.
+After the agent obtains explicit permission, this helper copies that bundled
+engine into versioned user data and prepares an isolated environment. It never
+clones or otherwise resolves a separate Verify repository.
 """
 
 from __future__ import annotations
 
 import argparse
 import hashlib
-import importlib.util
 import json
 import os
 import platform
@@ -25,8 +25,6 @@ from pathlib import Path
 from typing import Sequence
 
 
-ENGINE_REPOSITORY = "https://github.com/jin-yidan/verified-rl.git"
-ENGINE_REF = "verify-v0.1.0"
 MIN_PYTHON = (3, 10)
 ELAN_VERSION = "4.2.1"
 ELAN_RELEASE_ROOT = (
@@ -69,7 +67,11 @@ def plugin_version() -> str:
 
 
 def engine_series() -> str:
-    return plugin_version().split("+", 1)[0]
+    return f"{plugin_version().split('+', 1)[0]}-standalone"
+
+
+def bundled_source() -> Path:
+    return plugin_root() / "runtime"
 
 
 def data_root() -> Path:
@@ -182,36 +184,20 @@ def _read_marker() -> dict:
         return {}
 
 
-def _system_engine() -> tuple[Path, Path] | None:
-    if os.environ.get("VERIFY_IGNORE_SYSTEM_ENGINE") == "1":
-        return None
-    spec = importlib.util.find_spec("rlverify.mcp_server")
-    if spec is None or spec.origin is None:
-        return None
-    source = Path(spec.origin).resolve().parents[1]
-    return Path(sys.executable).resolve(), source
-
-
 def runtime_status() -> dict:
     marker = _read_marker()
     python_ok = sys.version_info >= MIN_PYTHON
     managed_ok = _can_import_engine(engine_python())
-    system = _system_engine()
-    engine_ok = managed_ok or system is not None
-    active_python = engine_python() if managed_ok else system[0] if system else engine_python()
-    active_source = engine_source() if managed_ok else system[1] if system else engine_source()
+    engine_ok = managed_ok
+    active_python = engine_python()
+    active_source = engine_source()
     lake = _lean_tool("lake")
     lean = _lean_tool("lean")
-    lean_ready = bool(
-        engine_ok
-        and (
-            (managed_ok and marker.get("lean_ready"))
-            or (system is not None and (active_source / ".lake" / "build").exists())
-        )
-    )
+    lean_ready = bool(engine_ok and marker.get("lean_ready"))
     return {
         "plugin_version": plugin_version(),
         "engine_series": engine_series(),
+        "bundled_source": str(bundled_source()),
         "data_root": str(data_root()),
         "engine_root": str(engine_root()),
         "python": {
@@ -221,7 +207,7 @@ def runtime_status() -> dict:
         },
         "engine": {
             "installed": engine_ok,
-            "managed": managed_ok,
+            "managed": True,
             "python": str(active_python),
             "source": str(active_source),
         },
@@ -254,30 +240,36 @@ def _copy_local_source(source: Path, destination: Path) -> None:
         ".pytest_cache",
         "__pycache__",
         "*.pyc",
+        "*.egg-info",
+        ".venv",
+        "dist",
+        "rlverify-out",
         "runs",
     )
     shutil.copytree(source, destination, ignore=ignored)
 
 
-def _obtain_source(destination: Path, source: str | None, ref: str) -> None:
-    if source:
-        local = Path(source).expanduser().resolve()
-        if not (local / "pyproject.toml").is_file():
-            raise RuntimeError(f"not a Verify source checkout: {local}")
-        _copy_local_source(local, destination)
-        return
-    git = shutil.which("git")
-    if not git:
-        raise RuntimeError("git is required to download the Verify engine")
-    repository = os.environ.get("VERIFY_ENGINE_REPOSITORY", ENGINE_REPOSITORY)
-    _run([git, "clone", "--depth", "1", "--branch", ref, repository, str(destination)])
+def _obtain_source(destination: Path, source: str | None) -> None:
+    local = Path(source).expanduser().resolve() if source else bundled_source()
+    required = (
+        local / "pyproject.toml",
+        local / "RLGeneralization.lean",
+        local / "RLGeneralization",
+        local / "rlverify",
+        local / "harness",
+        local / "verify_app",
+    )
+    if not all(path.exists() for path in required):
+        label = "local source" if source else "bundled runtime"
+        raise RuntimeError(f"incomplete Verify {label}: {local}")
+    _copy_local_source(local, destination)
 
 
-def _write_marker(*, lean_ready: bool, ref: str) -> None:
+def _write_marker(*, lean_ready: bool) -> None:
     payload = {
         "plugin_version": plugin_version(),
         "engine_series": engine_series(),
-        "engine_ref": ref,
+        "source": "bundled",
         "lean_ready": lean_ready,
     }
     marker_path().write_text(json.dumps(payload, indent=2) + "\n")
@@ -300,6 +292,9 @@ def _build_lean(source_dir: Path) -> None:
         _run([bash, str(prepare)], cwd=source_dir)
     _run([lake, "exe", "cache", "get"], cwd=source_dir, check=False)
     _run([lake, "build", "RLGeneralization"], cwd=source_dir)
+    repl_dir = source_dir / "tools" / "repl"
+    if (repl_dir / "lakefile.toml").is_file():
+        _run([lake, "build", "repl"], cwd=repl_dir)
 
 
 def _download(url: str, destination: Path) -> None:
@@ -381,8 +376,7 @@ def install_lean(*, confirmed: bool) -> dict:
         _build_lean(source_dir)
         _smoke_test(python, source_dir)
         if current["engine"]["managed"]:
-            ref = str(_read_marker().get("engine_ref") or ENGINE_REF)
-            _write_marker(lean_ready=True, ref=ref)
+            _write_marker(lean_ready=True)
     return runtime_status()
 
 
@@ -409,7 +403,6 @@ def install_runtime(
     *,
     confirmed: bool,
     source: str | None = None,
-    ref: str = ENGINE_REF,
     build_lean: bool = True,
 ) -> dict:
     if not confirmed:
@@ -432,7 +425,7 @@ def install_runtime(
         _build_lean(source_dir)
         _smoke_test(python, source_dir)
         if current["engine"]["managed"]:
-            _write_marker(lean_ready=True, ref=ref)
+            _write_marker(lean_ready=True)
         return runtime_status()
 
     root = engine_root()
@@ -440,7 +433,7 @@ def install_runtime(
     staging = Path(tempfile.mkdtemp(prefix=f".{engine_series()}-", dir=root.parent))
     try:
         source_dir = staging / "source"
-        _obtain_source(source_dir, source, ref)
+        _obtain_source(source_dir, source)
         venv_dir = staging / "venv"
         _run([sys.executable, "-m", "venv", str(venv_dir)])
         folder = "Scripts" if os.name == "nt" else "bin"
@@ -471,7 +464,7 @@ def install_runtime(
                 "ask the user before replacing it"
             )
         os.replace(staging, root)
-        _write_marker(lean_ready=lean_ready, ref=ref)
+        _write_marker(lean_ready=lean_ready)
         return runtime_status()
     except Exception:
         shutil.rmtree(staging, ignore_errors=True)
@@ -494,7 +487,6 @@ def _parser() -> argparse.ArgumentParser:
         help="confirm the agent already obtained explicit user permission",
     )
     parser.add_argument("--source", help=argparse.SUPPRESS)
-    parser.add_argument("--ref", default=ENGINE_REF, help=argparse.SUPPRESS)
     parser.add_argument("--skip-lean-build", action="store_true", help=argparse.SUPPRESS)
     parser.add_argument("--json", action="store_true")
     return parser
@@ -511,7 +503,6 @@ def main(argv: Sequence[str] | None = None) -> int:
             result = install_runtime(
                 confirmed=args.yes,
                 source=args.source,
-                ref=args.ref,
                 build_lean=not args.skip_lean_build,
             )
     except (PermissionError, RuntimeError, subprocess.SubprocessError) as error:

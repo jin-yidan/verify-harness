@@ -1,0 +1,2 @@
+A real number whose square is zero must itself be zero.
+

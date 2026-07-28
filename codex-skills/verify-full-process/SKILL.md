@@ -219,10 +219,10 @@ imports in Phase 3); it applies only to this gate.
 
 #### Report
 
-Output a resolution table:
+Output and persist the decomposition/resolution chart:
 
-| # | Block Name | Statement (NL) | Kind | Library Match / Notes |
-|---|-----------|----------------|------|----------------------|
+| # | Block Name | Statement (NL) | Depends On | Kind | Repository Match | Source / Notes |
+|---|-----------|----------------|------------|------|------------------|----------------|
 
 Then summarize:
 - Total blocks: N
@@ -231,6 +231,9 @@ Then summarize:
 - Novel: Z (need full formalization)
 
 List the imports needed for all library matches.
+For every selected repository theorem, include its qualified name, theorem
+statement, source file and line. The final report must reproduce this chart;
+phase logs alone are not an acceptable substitute.
 
 #### Rules for Extract
 
@@ -793,9 +796,11 @@ Do NOT add instantiations — they're already covered by the general theorem in 
 If a session was started with `d.begin(...)`, close it with `d.finish()` — it
 writes the assembled Lean file (with `#print axioms <main>` appended, so the
 verdict is independently reproducible via `lake env lean runs/<file>.lean`)
+and one independently compilable `.lean` file for every discharged block,
 plus a JSON run record (blocks, kinds, statuses, verdict, kernel axioms,
-falsifications) to `runs/`, which feeds aggregate statistics like the library
-hit-rate. Call `d.finish()` only after Phase 5 — novel lemmas added after
+falsifications) to `runs/`. Every reported Lean artifact must include its exact
+path and a `lake env lean <path>` reproduction command. This feeds aggregate
+statistics like the library hit-rate. Call `d.finish()` only after Phase 5 — novel lemmas added after
 `finish()` succeed but are not reflected in the run record (the driver warns).
 
 Output ONE of:
@@ -804,7 +809,10 @@ Output ONE of:
 (`#print axioms`, reported by `d.assemble`) is ⊆ {propext, Classical.choice,
 Quot.sound}, every step follows from the proof sketch.
 - Show the complete code
-- Show the building block resolution table
+- Show the decomposition as a chart with, for every block: statement,
+  dependencies, `library` / `instantiation` / `novel`, the selected repository
+  theorem and source location when found, formal status, and Lean artifact.
+- Print the totals for all three classifications even when one count is zero.
 - A compile success alone is NOT VERIFIED — the kernel closure is the source
   of truth (it sees sorries and axioms hidden in imports).
 

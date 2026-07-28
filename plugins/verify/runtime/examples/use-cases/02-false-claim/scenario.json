@@ -1,0 +1,18 @@
+{
+  "id": "false-claim",
+  "title": "False theorem with a simple counterexample",
+  "recommended_request": "Try to falsify this claim, then independently certify any witness.",
+  "primary_workflow": "falsify",
+  "situation": "The theorem is false: x = 0 gives 1 < 0.",
+  "expected": {
+    "likely": "REFUTED",
+    "allowed": ["SUSPECTED", "REFUTED", "UNKNOWN"],
+    "must_not_report": ["VERIFIED", "NO_COUNTEREXAMPLE"],
+    "reason": "A generated witness is initially audit-only; REFUTED requires a trusted deterministic certificate or kernel refutation."
+  },
+  "library_policy": {
+    "decision": "not-candidate",
+    "reason": "Paper-specific negative certificates and false statements never enter the positive theorem corpus."
+  }
+}
+

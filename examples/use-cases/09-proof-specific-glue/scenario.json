@@ -1,0 +1,18 @@
+{
+  "id": "proof-specific-glue",
+  "title": "Correct proof-specific bookkeeping that should not enter the corpus",
+  "recommended_request": "Verify this bookkeeping step, but save it only in the run artifacts.",
+  "primary_workflow": "full",
+  "situation": "The statement is correct but tied to one run and fixed constants; it has no meaningful cross-proof abstraction.",
+  "expected": {
+    "likely": "VERIFIED",
+    "allowed": ["VERIFIED", "INCOMPLETE", "UNKNOWN"],
+    "must_not_report": ["REFUTED"],
+    "reason": "A valid theorem can still be unsuitable for shared-library promotion."
+  },
+  "library_policy": {
+    "decision": "reject-paper-specific",
+    "reason": "Keep the certificate and proof mapping in the run record, but do not add fixed-instance bookkeeping to the shared corpus."
+  }
+}
+

@@ -1,0 +1,4 @@
+For every measurable real-valued function on an arbitrary probability space,
+its expectation is at most its essential supremum, with no additional
+measurability, integrability, or boundedness assumptions.
+

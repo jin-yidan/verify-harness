@@ -1,0 +1,3 @@
+Since x² is nonnegative, adding 1 makes the expression strictly smaller than
+zero. Therefore x² + 1 < 0 for every real x.
+

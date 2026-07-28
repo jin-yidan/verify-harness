@@ -1,0 +1,18 @@
+{
+  "fixture": "sa_ode_gas_circular",
+  "source": "user_submitted_organic",
+  "verdict_class": "UNVERIFIED/SUSPECTED",
+  "flaws": [
+    {
+      "id": "boundedness_noise_cycle",
+      "location": "Lemma 3",
+      "signature_keywords": ["circular", "cycle", "boundedness",
+                             "conditional", "presuppos", "borkar",
+                             "unconditionally"],
+      "min_keyword_hits": 2
+    }
+  ],
+  "sound_block_hints": ["ode_wellposed_attractor", "ode_method_convergence"],
+  "expected_library_matches": [],
+  "min_kernel_backed_blocks": 0
+}

@@ -1,0 +1,3 @@
+For a fixed nonnegative numerator, the square root of its ratio to a positive
+denominator is nonincreasing as the denominator grows.
+

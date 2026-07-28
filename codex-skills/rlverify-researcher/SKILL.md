@@ -1,19 +1,13 @@
 ---
 name: rlverify-researcher
-description: Use the local RLVerify researcher CLI and harness to verify theorem/proof sketches, ingest papers or arXiv links, run sealed triage and hypothesis audit, run numeric falsification, resume verification runs, and interpret RLVerify evidence/outcome cards. Use for requests to check mathematical proofs, verify RL or RL theory claims, audit hidden hypotheses, falsify claims, or run the verified-rl harness.
+description: Use the local RLVerify researcher CLI and harness to verify theorem/proof sketches, ingest papers or arXiv links, run sealed triage and hypothesis audit, run numeric falsification, resume verification runs, and interpret RLVerify evidence/outcome cards. Use for requests to check mathematical proofs, verify RL or RL theory claims, audit hidden hypotheses, falsify claims, or run the Verify harness.
 ---
 
 # RLVerify Researcher
 
-Use the local RLVerify harness as the executable verification engine. The normal
-repo path is:
-
-```bash
-/Users/jinyidan/Desktop/projects/verified-rl
-```
-
-If that path is unavailable, locate a repo containing `harness/cli.py` and
-`rlverify/mcp_server.py`.
+Use the local RLVerify harness as the executable verification engine. Run it
+from the current `verified-skills` repository root, which contains
+`harness/cli.py` and `rlverify/mcp_server.py`.
 
 ## Core Rules
 

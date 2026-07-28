@@ -1,0 +1,243 @@
+diff --git a/SLT/GaussianPoincare/EfronSteinApp.lean b/SLT/GaussianPoincare/EfronSteinApp.lean
+index 01892b7..9a1644d 100644
+--- a/SLT/GaussianPoincare/EfronSteinApp.lean
++++ b/SLT/GaussianPoincare/EfronSteinApp.lean
+@@ -330,11 +330,7 @@ lemma rademacher_values_ae {Ω : Type*} [MeasurableSpace Ω]
+     simp only [rademacherMeasure]
+     rw [ae_add_measure_iff]
+     have hmeas : MeasurableSet {x : ℝ | x = 1 ∨ x = -1} := by measurability
+-    constructor <;> {
+-      rw [Measure.ae_smul_measure_iff (by norm_num : (1/2 : ℝ≥0∞) ≠ 0)]
+-      rw [ae_dirac_iff hmeas]
+-      simp
+-    }
++    constructor <;> exact Measure.ae_smul_measure ((ae_dirac_iff hmeas).mpr (by simp)) _
+   rw [← hε] at hsupp
+   -- ε is measurable since map ε P = rademacherMeasure ≠ 0
+   have hmeas' : AEMeasurable ε P := by
+diff --git a/SLT/GaussianPoincare/LevyContinuity.lean b/SLT/GaussianPoincare/LevyContinuity.lean
+index bb533ef..23a9297 100644
+--- a/SLT/GaussianPoincare/LevyContinuity.lean
++++ b/SLT/GaussianPoincare/LevyContinuity.lean
+@@ -189,7 +189,7 @@ lemma isTightMeasureSet_iff_tendsto_limsup_measure_norm_gt :
+       ↔ Tendsto (fun r : ℝ ↦ limsup (fun n ↦ μ n {x | r < ‖x‖}) atTop) atTop (𝓝 0) := by
+   refine ⟨fun h ↦ ?_, isTightMeasureSet_of_tendsto_limsup_measure_norm_gt⟩
+   have h_sup := tendsto_measure_norm_gt_of_isTightMeasureSet h
+-  refine tendsto_of_tendsto_of_tendsto_of_le_of_le tendsto_const_nhds h_sup (fun _ ↦ zero_le') ?_
++  refine tendsto_of_tendsto_of_tendsto_of_le_of_le tendsto_const_nhds h_sup (fun _ ↦ zero_le _) ?_
+   intro r
+   simp_rw [iSup_range]
+   exact limsup_le_iSup
+@@ -221,7 +221,7 @@ lemma isTightMeasureSet_iff_tendsto_limsup_inner :
+   refine ⟨fun h z ↦ ?_, isTightMeasureSet_of_tendsto_limsup_inner⟩
+   rw [isTightMeasureSet_iff_inner_tendsto ℝ] at h
+   refine tendsto_of_tendsto_of_tendsto_of_le_of_le tendsto_const_nhds (h z)
+-    (fun _ ↦ zero_le') fun r ↦ ?_
++    (fun _ ↦ zero_le _) fun r ↦ ?_
+   simp_rw [iSup_range]
+   exact limsup_le_iSup
+ 
+@@ -263,7 +263,7 @@ lemma isTightMeasureSet_of_tendsto_charFun {μ : ℕ → Measure E} [∀ i, IsPr
+       rw [ENNReal.ofReal_toReal]
+       refine ne_top_of_le_ne_top (by simp : 1 ≠ ∞) ?_
+       refine limsup_le_of_le ?_ (.of_forall fun _ ↦ prob_le_one)
+-      exact IsCoboundedUnder.of_frequently_ge <| .of_forall fun _ ↦ zero_le'
++      exact IsCoboundedUnder.of_frequently_ge <| .of_forall fun _ ↦ zero_le _
+     simp_rw [h_ofReal]
+     rw [← ENNReal.ofReal_zero]
+     exact ENNReal.tendsto_ofReal this
+diff --git a/SLT/GaussianPoincare/RademacherApprox.lean b/SLT/GaussianPoincare/RademacherApprox.lean
+index 591ce43..394432e 100644
+--- a/SLT/GaussianPoincare/RademacherApprox.lean
++++ b/SLT/GaussianPoincare/RademacherApprox.lean
+@@ -184,11 +184,7 @@ lemma IndepRademacherSeq.norm_le_one (seq : IndepRademacherSeq Ω P) (i : ℕ) :
+     simp only [rademacherMeasure]
+     rw [ae_add_measure_iff]
+     have hmeas : MeasurableSet {x : ℝ | ‖x‖ ≤ 1} := by measurability
+-    constructor <;> {
+-      rw [Measure.ae_smul_measure_iff (by norm_num : (1/2 : ℝ≥0∞) ≠ 0)]
+-      rw [ae_dirac_iff hmeas]
+-      simp
+-    }
++    constructor <;> exact Measure.ae_smul_measure ((ae_dirac_iff hmeas).mpr (by simp)) _
+   rw [← h] at hae
+   exact ae_of_ae_map (seq.measurable i).aemeasurable hae
+ 
+diff --git a/SLT/GaussianSobolevDense/Cutoff.lean b/SLT/GaussianSobolevDense/Cutoff.lean
+index d4a2271..2c6f772 100644
+--- a/SLT/GaussianSobolevDense/Cutoff.lean
++++ b/SLT/GaussianSobolevDense/Cutoff.lean
+@@ -200,7 +200,7 @@ lemma cutoff_L2_convergence (f : E n → ℝ) (hf : MemLp f 2 (stdGaussianE n))
+   -- First, show that |f|² is integrable (i.e., ∫⁻ |f|² < ∞)
+   have hf_sq_int : ∫⁻ x, (‖f x‖₊ : ℝ≥0∞) ^ (2 : ℝ) ∂(stdGaussianE n) < ⊤ := by
+     have hlt := hf.eLpNorm_lt_top
+-    rw [MeasureTheory.eLpNorm_eq_lintegral_rpow_enorm (by norm_num : (2 : ℝ≥0∞) ≠ 0)
++    rw [MeasureTheory.eLpNorm_eq_lintegral_rpow_enorm_toReal (by norm_num : (2 : ℝ≥0∞) ≠ 0)
+         (by norm_num : (2 : ℝ≥0∞) ≠ ⊤)] at hlt
+     simp only [ENNReal.toReal_ofNat, one_div, enorm_eq_nnnorm] at hlt
+     by_contra habs
+@@ -312,7 +312,7 @@ lemma cutoff_L2_convergence (f : E n → ℝ) (hf : MemLp f 2 (stdGaussianE n))
+   have heLpNorm_eq : ∀ R, eLpNorm (fun x => f x * (1 - smoothCutoffR R x)) 2 (stdGaussianE n) =
+       (∫⁻ x, F R x ∂(stdGaussianE n)) ^ (2⁻¹ : ℝ) := by
+     intro R
+-    rw [MeasureTheory.eLpNorm_eq_lintegral_rpow_enorm (by norm_num : (2 : ℝ≥0∞) ≠ 0)
++    rw [MeasureTheory.eLpNorm_eq_lintegral_rpow_enorm_toReal (by norm_num : (2 : ℝ≥0∞) ≠ 0)
+         (by norm_num : (2 : ℝ≥0∞) ≠ ⊤)]
+     simp only [ENNReal.toReal_ofNat, one_div, enorm_eq_nnnorm, F]
+   simp only [heLpNorm_eq]
+@@ -407,7 +407,7 @@ lemma cutoff_gradient_error_bound (f : E n → ℝ)
+ 
+   have hg_sq_int : ∫⁻ x, (‖g x‖₊ : ℝ≥0∞) ^ (2 : ℝ) ∂(stdGaussianE n) < ⊤ := by
+     have hlt := hf_grad.eLpNorm_lt_top
+-    rw [MeasureTheory.eLpNorm_eq_lintegral_rpow_enorm (by norm_num : (2 : ℝ≥0∞) ≠ 0)
++    rw [MeasureTheory.eLpNorm_eq_lintegral_rpow_enorm_toReal (by norm_num : (2 : ℝ≥0∞) ≠ 0)
+         (by norm_num : (2 : ℝ≥0∞) ≠ ⊤)] at hlt
+     simp only [ENNReal.toReal_ofNat, one_div, enorm_eq_nnnorm, g] at hlt ⊢
+     by_contra habs
+@@ -467,7 +467,7 @@ lemma cutoff_gradient_error_bound (f : E n → ℝ)
+   have heLpNorm_eq : ∀ R, eLpNorm (fun x => (1 - smoothCutoffR R x) • fderiv ℝ f x) 2 (stdGaussianE n) =
+       (∫⁻ x, F R x ∂(stdGaussianE n)) ^ (2⁻¹ : ℝ) := by
+     intro R
+-    rw [MeasureTheory.eLpNorm_eq_lintegral_rpow_enorm (by norm_num : (2 : ℝ≥0∞) ≠ 0)
++    rw [MeasureTheory.eLpNorm_eq_lintegral_rpow_enorm_toReal (by norm_num : (2 : ℝ≥0∞) ≠ 0)
+         (by norm_num : (2 : ℝ≥0∞) ≠ ⊤)]
+     simp only [ENNReal.toReal_ofNat, one_div, enorm_eq_nnnorm, F, g]
+   simp only [heLpNorm_eq]
+diff --git a/SLT/SmallBallProb.lean b/SLT/SmallBallProb.lean
+index be1c558..f82688f 100644
+--- a/SLT/SmallBallProb.lean
++++ b/SLT/SmallBallProb.lean
+@@ -227,7 +227,7 @@ theorem mgf_neg_le_inv_of_pdf_bounded
+     -- Use that pdf integrates to the pushforward measure
+     have h_integral : ∫⁻ x in Iio 0, pdf X μ volume x ∂volume ≤ μ.map X (Iio 0) :=
+       setLIntegral_pdf_le_map X μ volume (Iio 0)
+-    rw [h_map, le_zero_iff] at h_integral
++    rw [h_map, nonpos_iff_eq_zero] at h_integral
+     -- Since pdf is non-negative and integral is 0, pdf is 0 a.e.
+     have h_ae_zero : ∀ᵐ x ∂volume, x ∈ Iio 0 → pdf X μ volume x = 0 :=
+       (setLIntegral_eq_zero_iff measurableSet_Iio (measurable_pdf X μ volume)).mp h_integral
+diff --git a/lake-manifest.json b/lake-manifest.json
+index 2d27b14..5eb17d7 100644
+--- a/lake-manifest.json
++++ b/lake-manifest.json
+@@ -1,31 +1,21 @@
+ {"version": "1.1.0",
+  "packagesDir": ".lake/packages",
+  "packages":
+- [{"url": "https://github.com/PatrickMassot/checkdecls.git",
++ [{"url": "https://github.com/leanprover-community/mathlib4.git",
+    "type": "git",
+    "subDir": null,
+    "scope": "",
+-   "rev": "3d425859e73fcfbef85b9638c2a91708ef4a22d4",
+-   "name": "checkdecls",
+-   "manifestFile": "lake-manifest.json",
+-   "inputRev": null,
+-   "inherited": false,
+-   "configFile": "lakefile.lean"},
+-  {"url": "https://github.com/leanprover-community/mathlib4.git",
+-   "type": "git",
+-   "subDir": null,
+-   "scope": "",
+-   "rev": "d68c4dc09f5e000d3c968adae8def120a0758729",
++   "rev": "8f9d9cff6bd728b17a24e163c9402775d9e6a365",
+    "name": "mathlib",
+    "manifestFile": "lake-manifest.json",
+-   "inputRev": "master",
++   "inputRev": "v4.28.0",
+    "inherited": false,
+    "configFile": "lakefile.lean"},
+   {"url": "https://github.com/leanprover-community/plausible",
+    "type": "git",
+    "subDir": null,
+    "scope": "leanprover-community",
+-   "rev": "b3dd6c3ebc0a71685e86bea9223be39ea4c299fb",
++   "rev": "55c8532eb21ec9f6d565d51d96b8ca50bd1fbef3",
+    "name": "plausible",
+    "manifestFile": "lake-manifest.json",
+    "inputRev": "main",
+@@ -35,7 +25,7 @@
+    "type": "git",
+    "subDir": null,
+    "scope": "leanprover-community",
+-   "rev": "5ce7f0a355f522a952a3d678d696bd563bb4fd28",
++   "rev": "c5d5b8fe6e5158def25cd28eb94e4141ad97c843",
+    "name": "LeanSearchClient",
+    "manifestFile": "lake-manifest.json",
+    "inputRev": "main",
+@@ -45,7 +35,7 @@
+    "type": "git",
+    "subDir": null,
+    "scope": "leanprover-community",
+-   "rev": "cff9dd30f2c161b9efd7c657cafed1f967645890",
++   "rev": "85b59af46828c029a9168f2f9c35119bd0721e6e",
+    "name": "importGraph",
+    "manifestFile": "lake-manifest.json",
+    "inputRev": "main",
+@@ -55,17 +45,17 @@
+    "type": "git",
+    "subDir": null,
+    "scope": "leanprover-community",
+-   "rev": "ef8377f31b5535430b6753a974d685b0019d0681",
++   "rev": "be3b2e63b1bbf496c478cef98b86972a37c1417d",
+    "name": "proofwidgets",
+    "manifestFile": "lake-manifest.json",
+-   "inputRev": "v0.0.84",
++   "inputRev": "v0.0.87",
+    "inherited": true,
+    "configFile": "lakefile.lean"},
+   {"url": "https://github.com/leanprover-community/aesop",
+    "type": "git",
+    "subDir": null,
+    "scope": "leanprover-community",
+-   "rev": "fa78cf032194308a950a264ed87b422a2a7c1c6c",
++   "rev": "f642a64c76df8ba9cb53dba3b919425a0c2aeaf1",
+    "name": "aesop",
+    "manifestFile": "lake-manifest.json",
+    "inputRev": "master",
+@@ -75,7 +65,7 @@
+    "type": "git",
+    "subDir": null,
+    "scope": "leanprover-community",
+-   "rev": "8920dcbb96a4e8bf641fc399ac9c0888e4a6be72",
++   "rev": "b8f98e9087e02c8553945a2c5abf07cec8e798c3",
+    "name": "Qq",
+    "manifestFile": "lake-manifest.json",
+    "inputRev": "master",
+@@ -85,7 +75,7 @@
+    "type": "git",
+    "subDir": null,
+    "scope": "leanprover-community",
+-   "rev": "2e16f91af2a97975e5d2fac906494cd6c17ba255",
++   "rev": "495c008c3e3f4fb4256ff5582ddb3abf3198026f",
+    "name": "batteries",
+    "manifestFile": "lake-manifest.json",
+    "inputRev": "main",
+@@ -95,11 +85,11 @@
+    "type": "git",
+    "subDir": null,
+    "scope": "leanprover",
+-   "rev": "726b98c53e2da249c1de768fbbbb5e67bc9cef60",
++   "rev": "4f10f47646cb7d5748d6f423f4a07f98f7bbcc9e",
+    "name": "Cli",
+    "manifestFile": "lake-manifest.json",
+-   "inputRev": "v4.27.0-rc1",
++   "inputRev": "v4.28.0",
+    "inherited": true,
+    "configFile": "lakefile.toml"}],
+- "name": "lean-stat-learning-theory",
++ "name": "SLT",
+  "lakeDir": ".lake"}
+diff --git a/lakefile.lean b/lakefile.lean
+index 0f39f40..67435d3 100644
+--- a/lakefile.lean
++++ b/lakefile.lean
+@@ -28,7 +28,7 @@ package «SLT» where
+   moreServerOptions := linter
+ 
+ require mathlib from git
+-  "https://github.com/leanprover-community/mathlib4.git" @ "master"
++  "https://github.com/leanprover-community/mathlib4.git" @ "v4.28.0"
+ 
+ @[default_target]
+ lean_lib «SLT» where

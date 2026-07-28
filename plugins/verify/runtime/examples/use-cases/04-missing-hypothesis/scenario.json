@@ -1,0 +1,18 @@
+{
+  "id": "missing-hypothesis",
+  "title": "Correct monotonicity lemma applied without positivity",
+  "recommended_request": "Check every hypothesis required by the reciprocal-order step; do not fully verify yet.",
+  "primary_workflow": "hypotheses",
+  "situation": "Reciprocal antitonicity needs a positive-domain condition. The submitted theorem is false, for example at x = -1 and y = 1.",
+  "expected": {
+    "likely": "SUSPECTED",
+    "allowed": ["SUSPECTED", "REFUTED", "UNKNOWN"],
+    "must_not_report": ["VERIFIED", "HYPOTHESIS_VIOLATION"],
+    "reason": "The standalone model audit is prioritization-only. A later deterministic witness or kernel refutation may upgrade the result."
+  },
+  "library_policy": {
+    "decision": "not-candidate",
+    "reason": "The submitted statement is false and the corrected reciprocal theorem already belongs to the base library."
+  }
+}
+

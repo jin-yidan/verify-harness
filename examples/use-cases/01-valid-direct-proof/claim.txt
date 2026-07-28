@@ -1,0 +1,2 @@
+The square of the difference between any real number and 3 is nonnegative.
+

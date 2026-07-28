@@ -1,0 +1,4 @@
+Every term xᵢ is at most M = maxᵢ xᵢ. Summing the n inequalities gives
+Σᵢ xᵢ ≤ nM. Since n is positive, division by n yields
+(1/n) Σᵢ xᵢ ≤ M.
+

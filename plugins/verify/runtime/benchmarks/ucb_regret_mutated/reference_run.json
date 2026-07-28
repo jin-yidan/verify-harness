@@ -1,0 +1,309 @@
+{
+  "fixture": "ucb_regret_mutated_bench",
+  "lemmas": [
+    {
+      "name": "regret_decomposition",
+      "kind": "library",
+      "library_match": "RLGeneralization.Bandits.PseudoregretEqSumGapMulPullcount.pseudoRegret_eq_sum_gap_mul_pullCount",
+      "statement": "E[R_n] = sum_i Delta_i E[T_i(n)] (counting identity + linearity)",
+      "proof": "",
+      "code": "",
+      "compiled": false,
+      "compile_error": "",
+      "note": "",
+      "near_match": {
+        "claim_log_args": [],
+        "agrees": [],
+        "differs": [],
+        "substitutions": []
+      }
+    },
+    {
+      "name": "threshold_split",
+      "kind": "library",
+      "library_match": "RLGeneralization.Bandits.UCB.pull_count_le_of_selection_domination",
+      "statement": "T_i(n) <= l + sum_t 1{arm i played at t and T_i(t-1) >= l} (counting: pulls beyond the l-th require selection)",
+      "proof": "",
+      "code": "",
+      "compiled": false,
+      "compile_error": "",
+      "note": "",
+      "near_match": {
+        "claim_log_args": [],
+        "agrees": [],
+        "differs": [],
+        "substitutions": []
+      }
+    },
+    {
+      "name": "index_condition",
+      "kind": "novel",
+      "library_match": "",
+      "statement": "arm i played at t only if UCB index of i at its count s with bonus sqrt(2 ln t / s) >= optimal arm's index (selection rule, definitional)",
+      "proof": "",
+      "code": "",
+      "compiled": false,
+      "compile_error": "",
+      "note": "",
+      "near_match": {
+        "claim_log_args": [
+          [
+            "t"
+          ]
+        ],
+        "agrees": [],
+        "differs": [],
+        "substitutions": []
+      }
+    },
+    {
+      "name": "bad_events_contradiction",
+      "kind": "novel",
+      "library_match": "",
+      "statement": "if neither underestimate nor overestimate and s >= ceil(4 ln n / Delta_i^2) then contradiction via 2 sqrt(2 ln t / s) <= Delta_i — REFUTED: needs s >= 8 ln t / Delta_i^2 (library ucb_index_three_way_split's third disjunct is n < 8L/gap^2)",
+      "proof": "",
+      "code": "",
+      "compiled": false,
+      "compile_error": "",
+      "note": "",
+      "near_match": {
+        "claim_log_args": [
+          [
+            "n"
+          ],
+          [
+            "t"
+          ],
+          [
+            "t"
+          ]
+        ],
+        "agrees": [],
+        "differs": [],
+        "substitutions": []
+      }
+    },
+    {
+      "name": "hoeffding_fixed_pair",
+      "kind": "library",
+      "library_match": "RLGeneralization.Bandits.BanditConcentration.prefix_arm_mean_concentration",
+      "statement": "P(mean of first s iid [0,1] samples deviates by sqrt(2 ln t/s)) <= t^-4 at FIXED (t,s); union over s handled by summation (valid)",
+      "proof": "",
+      "code": "",
+      "compiled": false,
+      "compile_error": "",
+      "note": "",
+      "near_match": {
+        "claim_log_args": [
+          [
+            "s",
+            "t"
+          ]
+        ],
+        "agrees": [],
+        "differs": [
+          {
+            "id": "RLGeneralization.Concentration.HoeffdingExponentUcbBonus.hoeffding_exponent_ucb_bonus",
+            "log_args": [
+              [
+                "t"
+              ],
+              [
+                "t"
+              ],
+              [
+                "t"
+              ]
+            ],
+            "diffs": [
+              {
+                "lemma_log": [
+                  "t"
+                ],
+                "claim_log": [
+                  "s",
+                  "t"
+                ],
+                "missing": [],
+                "extra": [
+                  "s"
+                ]
+              },
+              {
+                "lemma_log": [
+                  "t"
+                ],
+                "claim_log": [
+                  "s",
+                  "t"
+                ],
+                "missing": [],
+                "extra": [
+                  "s"
+                ]
+              },
+              {
+                "lemma_log": [
+                  "t"
+                ],
+                "claim_log": [
+                  "s",
+                  "t"
+                ],
+                "missing": [],
+                "extra": [
+                  "s"
+                ]
+              }
+            ]
+          }
+        ],
+        "substitutions": []
+      }
+    },
+    {
+      "name": "tail_sum",
+      "kind": "instantiation",
+      "library_match": "Real.summable_one_div_nat_rpow",
+      "statement": "sum_t sum_s sum_s* 2 t^-4 <= sum_t 2 t^-2 = pi^2/3 (p-series)",
+      "proof": "",
+      "code": "",
+      "compiled": false,
+      "compile_error": "",
+      "note": "",
+      "near_match": {
+        "claim_log_args": [],
+        "agrees": [],
+        "differs": [],
+        "substitutions": []
+      }
+    },
+    {
+      "name": "count_bound",
+      "kind": "novel",
+      "library_match": "",
+      "statement": "E[T_i(n)] <= 4 ln n/Delta_i^2 + 1 + pi^2/3 — BLOCKED downstream of bad_events_contradiction",
+      "proof": "",
+      "code": "",
+      "compiled": false,
+      "compile_error": "",
+      "note": "",
+      "near_match": {
+        "claim_log_args": [
+          [
+            "2",
+            "Delta_i",
+            "n"
+          ]
+        ],
+        "agrees": [],
+        "differs": [],
+        "substitutions": []
+      }
+    },
+    {
+      "name": "regret_assembly",
+      "kind": "novel",
+      "library_match": "",
+      "statement": "R_n <= sum_i (4 ln n/Delta_i + c Delta_i) — BLOCKED downstream",
+      "proof": "",
+      "code": "",
+      "compiled": false,
+      "compile_error": "",
+      "note": "",
+      "near_match": {
+        "claim_log_args": [
+          [
+            "Delta_i",
+            "n"
+          ]
+        ],
+        "agrees": [],
+        "differs": [],
+        "substitutions": []
+      }
+    }
+  ],
+  "main_statement": "",
+  "main_proof": "",
+  "main_code": "",
+  "compiled": false,
+  "compile_error": "",
+  "novel_added": [],
+  "axioms": [],
+  "kernel_axioms": [],
+  "has_sorry_ax": false,
+  "sketch_code": "",
+  "falsifications": [
+    {
+      "block": "bad_events_contradiction",
+      "verdict": "REFUTED",
+      "claim": "s >= 4 ln n/Delta^2  =>  2 sqrt(2 ln t/s) <= Delta  (squares: 8L/s <= Delta^2)",
+      "instances": 199995,
+      "hyp_satisfied": 199995,
+      "violations": 191445,
+      "max_violation": 1.0,
+      "tolerance": 1e-09,
+      "certificate": {
+        "L": "1",
+        "Delta": "1/2",
+        "s": 16,
+        "check": "s=16 >= 4L/Delta^2=16 holds; 8L/s = 1/2 > 1/4 = Delta^2 (exact in Q); correct threshold is 8L/Delta^2"
+      },
+      "reason": ""
+    },
+    {
+      "block": "index_condition",
+      "verdict": "SKIPPED",
+      "claim": "",
+      "instances": 0,
+      "hyp_satisfied": 0,
+      "violations": 0,
+      "max_violation": 0.0,
+      "tolerance": 1e-09,
+      "certificate": null,
+      "reason": "definitional property of the argmax selection rule — no standalone numeric content to sample"
+    }
+  ],
+  "verdict": "UNVERIFIED/WRONG",
+  "verdict_reason": "bad_events_contradiction (Step 4 at Step 2's threshold) is false: s >= 4 ln n/Delta^2 does not give 2 sqrt(2 ln t/s) <= Delta; exact counterexample L=1, Delta=1/2, s=16 (8L/s = 1/2 > 1/4 = Delta^2). The kernel-checked library lemma ucb_index_three_way_split needs n < 8L/gap^2 as its third disjunct — the correct threshold is 8 ln n/Delta^2, so the theorem's constant 4 should be 8. Step 4's own text says 'l >= 8 ln n/Delta^2', contradicting Step 2's definition l = ceil(4 ln n/Delta^2)",
+  "verdict_block": "bad_events_contradiction",
+  "verdict_evidence": "kernel",
+  "refutations": [
+    {
+      "block": "bad_events_contradiction",
+      "description": "s >= ceil(4 ln n / Delta^2) implies 2 sqrt(2 ln t/s) <= Delta (Step 4's contradiction step at the Step 2 threshold); counterexample L=1, Delta=1/2, s=16",
+      "theorem": "mutated_threshold_counterexample",
+      "code": "import Mathlib.Tactic\n\n/-- Counterexample to the mutated Step 4 inference: at L = ln n = 1,\nΔ = 1/2, the proof's own threshold s = ⌈4L/Δ²⌉ = 16 satisfies the\nhypothesis s ≥ 4L/Δ², yet the required conclusion 8L/s ≤ Δ²\n(the squares form of 2√(2L/s) ≤ Δ) is false: 1/2 > 1/4. -/\ntheorem mutated_threshold_counterexample :\n    (16 : ℚ) ≥ 4 * 1 / (1/2)^2 ∧ ¬ (8 * 1 / 16 ≤ ((1:ℚ)/2)^2) := by\n  constructor <;> norm_num\n",
+      "compiled": true,
+      "kernel_axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "kernel_backed": true,
+      "artifact": "runs/ucb_regret_mutated_bench_20260611_124051_refute_bad_events_contradiction.lean",
+      "error": ""
+    }
+  ],
+  "triage": {
+    "suspects": [
+      {
+        "step": 2,
+        "suspicion": "threshold l = ceil(4 ln n / Delta^2) but the contradiction in Step 4 requires s >= 8 ln n / Delta^2; factor 2 too small, theorem constant 4 unsupported",
+        "severity": "high"
+      },
+      {
+        "step": 4,
+        "suspicion": "asserts 'l >= 8 ln n/Delta^2' contradicting Step 2's l = ceil(4 ln n/Delta^2); with s >= 4 ln t/Delta^2 one only gets 2 sqrt(2 ln t/s) <= sqrt(2) Delta > Delta",
+        "severity": "high"
+      },
+      {
+        "step": 5,
+        "suspicion": "fixed-(t,s) Hoeffding sound but validity rests on the union bound over s in Step 6",
+        "severity": "low"
+      }
+    ],
+    "all_clear": false
+  }
+}

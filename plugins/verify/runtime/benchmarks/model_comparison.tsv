@@ -1,0 +1,7 @@
+date	model	fixture	expected	got	verdict_match	detection	false_pos	kernel_backed	overall	cost_usd	duration_s	num_turns
+2026-06-11	opus	ucb_regret_clean	VERIFIED|VERIFIED MODULO AXIOMS|COMPILED|HAS GAPS	UNVERIFIED/INCOMPLETE	N	0/0	FP	5/7	FAIL	7.030817500000001	952.9	53
+2026-06-11	opus	ucb_regret_mutated	UNVERIFIED/WRONG	UNVERIFIED/WRONG	Y	1/1	0	3/7	PASS	1.6762940000000004	363.8	15
+2026-06-11	sonnet	ucb_regret_clean	VERIFIED|VERIFIED MODULO AXIOMS|COMPILED|HAS GAPS	(no record)	N	-	-	-	timeout	-	2400.0	-
+2026-06-11	sonnet	ucb_regret_mutated	UNVERIFIED/WRONG	UNVERIFIED/WRONG	Y	1/1	0	2/8	PASS	2.0396039999999998	961.6	34
+2026-06-11	haiku	ucb_regret_clean	-	(skipped: sonnet timed out)	N	-	-	-	SKIP	-	-	-
+2026-06-11	haiku	ucb_regret_mutated	-	(not run: sweep stopped early)	N	-	-	-	SKIP	-	-	-

@@ -1,0 +1,2 @@
+For every real x, x squared plus one is at least one.
+

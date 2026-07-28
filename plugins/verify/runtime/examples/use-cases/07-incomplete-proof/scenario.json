@@ -1,0 +1,18 @@
+{
+  "id": "incomplete-proof",
+  "title": "True theorem with material proof obligations omitted",
+  "recommended_request": "Fully verify this submitted proof without filling in unstated standard arguments.",
+  "primary_workflow": "full",
+  "situation": "The sketch names the classical parity argument but omits the divisibility lemmas, coprimality contradiction, and type conversions.",
+  "expected": {
+    "likely": "INCOMPLETE",
+    "allowed": ["INCOMPLETE", "THEOREM_VERIFIED_ALTERNATIVE_PROOF", "UNKNOWN"],
+    "must_not_report": ["VERIFIED", "REFUTED"],
+    "reason": "The verifier must not invent the omitted submitted-proof steps. A separately found proof must be labeled alternative."
+  },
+  "library_policy": {
+    "decision": "not-candidate",
+    "reason": "The headline theorem is standard; any independently proved atomic divisibility lemma should be evaluated separately."
+  }
+}
+

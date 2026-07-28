@@ -1,0 +1,18 @@
+{
+  "id": "true-theorem-bad-proof",
+  "title": "True theorem with an invalid submitted proof",
+  "recommended_request": "Verify the submitted proof, and distinguish it from an alternative proof of the theorem.",
+  "primary_workflow": "full",
+  "situation": "The theorem is true, but commutativity of multiplication does not justify replacing multiplication with addition.",
+  "expected": {
+    "likely": "THEOREM_VERIFIED_ALTERNATIVE_PROOF",
+    "allowed": ["SUSPECTED", "THEOREM_VERIFIED_ALTERNATIVE_PROOF", "INCOMPLETE", "UNKNOWN"],
+    "must_not_report": ["VERIFIED"],
+    "reason": "A kernel proof using add_comm establishes the theorem but does not validate the submitted inference."
+  },
+  "library_policy": {
+    "decision": "not-candidate",
+    "reason": "The correct theorem already exists in Mathlib; the invalid inference is never reusable proof content."
+  }
+}
+

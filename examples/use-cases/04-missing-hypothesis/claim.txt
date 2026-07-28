@@ -1,0 +1,2 @@
+Taking reciprocals reverses every inequality between arbitrary real numbers.
+

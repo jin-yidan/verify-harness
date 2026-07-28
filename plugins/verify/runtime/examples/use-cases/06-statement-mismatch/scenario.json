@@ -1,0 +1,18 @@
+{
+  "id": "statement-mismatch",
+  "title": "Correct finite theorem does not match the intended general claim",
+  "recommended_request": "Check whether the submitted theorem faithfully states the intended claim; do not prove it.",
+  "primary_workflow": "statement",
+  "situation": "The submitted theorem concerns finite lists, while the intended claim concerns arbitrary probability spaces and omits analytic side conditions.",
+  "expected": {
+    "likely": "MISMATCH",
+    "allowed": ["MISMATCH", "SUSPECTED", "UNKNOWN"],
+    "must_not_report": ["VERIFIED", "REFUTED"],
+    "reason": "A proof of the finite statement cannot certify the broader intended claim."
+  },
+  "library_policy": {
+    "decision": "not-candidate",
+    "reason": "The finite inequality is standard; the broader claimed theorem is underspecified."
+  }
+}
+

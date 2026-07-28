@@ -38,11 +38,13 @@ the user's project directory is the plugin directory. Before the first engine
 action, run the bundled `scripts/verify_runtime.py --status --json`.
 
 - If lightweight or full readiness is already true, continue.
-- If the engine is absent, explain that Verify will download its versioned
-  engine, create a private Python environment, install dependencies, and
-  optionally build the Lean library. Ask for explicit permission before
+- If the engine is absent, explain that Verify will copy its bundled versioned
+  engine into private user data, create a Python environment, install Python
+  dependencies, and optionally build the bundled Lean library. Ask for
+  explicit permission before
   running `scripts/verify_runtime.py --install --yes --json`.
-- Never treat plugin installation alone as permission to download or build.
+- Never treat plugin installation alone as permission to copy, install, or
+  build the runtime.
 - If status returns `action: install_lean`, lightweight falsification and
   retrieval may continue. Before full verification, explain that Verify will
   download the pinned official elan release, verify its SHA-256 digest, install
@@ -81,8 +83,11 @@ These are internal agent actions. Do not ask the researcher to type Python,
 3. Plain "verify this proof" or "verify this theorem" selects full-verification
    preparation. It does not authorize execution.
 4. "Review/look at this proof" and requests to identify suspicious steps route
-   to triage. Treat "check" as triage unless the user asks for a correctness
-   determination or Lean verification.
+   to triage. Plain "check this proof/theorem" requests a correctness
+   determination and therefore selects full-verification preparation; it still
+   does not authorize execution. Keep triage only when the user explicitly
+   asks for suspicious steps, review, or prioritization rather than a
+   correctness result.
 5. Full verification always requires a separate confirmation after showing
    the resolved statement, scope, and estimate. Never treat the initial routing
    request—even "fully verify this now"—as that confirmation, and do not invoke
@@ -133,6 +138,15 @@ Prefer the plugin-facing `verify_route`, `verify_search_library`, and
 directly, so the user never needs to create a file or type an engine command.
 `verify_run` executes exactly the requested scope and cannot infer a full check
 from a smaller one.
+
+For Codex full runs, pass the foreground model, reasoning effort, service tier,
+and an adequate agent budget explicitly when those values are visible. The
+product engine also recovers these capability settings from the local Codex
+configuration when omitted because its isolated child intentionally ignores
+user configuration. Pass a concise `agent_context` containing useful notation,
+relevant earlier search results, and failed proof attempts from the active
+conversation. This context is advisory only: it cannot add hypotheses, alter
+the submission, or count as evidence.
 
 A full run is phase-gated. High-severity triage findings first enter a bounded
 targeted-confirmation pass; hypothesis-audit violations and cycles use the same

@@ -1,0 +1,133 @@
+{
+  "fixture": "sa_ode_method_gas_convergence",
+  "lemmas": [
+    {
+      "name": "ode_wellposed_attractor",
+      "kind": "instantiation",
+      "library_match": "",
+      "named_result": "Picard-Lindelof + GAS hypothesis",
+      "statement": "Globally Lipschitz h gives global existence/uniqueness of ODE solutions; the GAS hypothesis makes {theta*} the unique global attractor.",
+      "proof": "",
+      "code": "",
+      "compiled": false,
+      "compile_error": "",
+      "note": "",
+      "skipped": "",
+      "near_match": {
+        "claim_log_args": [],
+        "agrees": [],
+        "differs": [],
+        "substitutions": []
+      }
+    },
+    {
+      "name": "conditional_martingale_noise_converges",
+      "kind": "instantiation",
+      "library_match": "",
+      "named_result": "L2 martingale convergence theorem",
+      "statement": "On the event {sup_k ||theta_k|| < inf}, sum_k a_k^2 E[||M_{k+1}||^2 | F_k] <= C sum a_k^2 < inf, so Z_n = sum a_k M_{k+1} is an L2-bounded martingale and converges a.s.",
+      "proof": "",
+      "code": "",
+      "compiled": false,
+      "compile_error": "",
+      "note": "",
+      "skipped": "",
+      "near_match": {
+        "claim_log_args": [],
+        "agrees": [],
+        "differs": [],
+        "substitutions": []
+      }
+    },
+    {
+      "name": "iterates_bounded",
+      "kind": "violation",
+      "library_match": "conditional_martingale_noise_converges",
+      "named_result": "",
+      "statement": "Claims sup_n ||theta_n|| < inf a.s. from GAS (Lemma 1) + finite accumulated noise (Lemma 2).",
+      "proof": "",
+      "code": "",
+      "compiled": false,
+      "compile_error": "",
+      "note": "CIRCULAR: invokes Lemma 2 UNCONDITIONALLY, but Lemma 2 establishes finite noise only on {sup||theta||<inf}, which is exactly this block conclusion. GAS of the ODE does not imply iterate boundedness; the genuine result needs an extra stability hypothesis (Borkar-Meyn: origin GAS for scaled field h_inf), absent here.",
+      "skipped": "",
+      "near_match": {
+        "claim_log_args": [],
+        "agrees": [],
+        "differs": [],
+        "substitutions": []
+      }
+    },
+    {
+      "name": "ode_method_convergence",
+      "kind": "instantiation",
+      "library_match": "",
+      "named_result": "Benaim 1996 / Borkar 2008 ODE method",
+      "statement": "A bounded asymptotic pseudotrajectory of theta_dot=h(theta) converges to the global attractor {theta*}.",
+      "proof": "",
+      "code": "",
+      "compiled": false,
+      "compile_error": "",
+      "note": "",
+      "skipped": "",
+      "near_match": {
+        "claim_log_args": [],
+        "agrees": [],
+        "differs": [],
+        "substitutions": []
+      }
+    }
+  ],
+  "main_statement": "",
+  "main_proof": "",
+  "main_code": "",
+  "compiled": false,
+  "compile_error": "",
+  "novel_added": [],
+  "axioms": [],
+  "kernel_axioms": [],
+  "has_sorry_ax": false,
+  "sketch_code": "",
+  "falsifications": [],
+  "verdict": "UNVERIFIED/CIRCULAR",
+  "verdict_reason": "Lemma 3 (iterates_bounded) proves boundedness by invoking Lemma 2, whose noise-summability conclusion is itself conditional on the boundedness Lemma 3 is trying to prove. The Lemma2<->Lemma3 dependency is a cycle. Root cause: GAS of the ODE does not imply iterate boundedness/stability; the standard theorem requires an additional stability hypothesis (Borkar-Meyn scaled-ODE h_inf GAS) that the theorem omits and the proof bridges circularly. Audit-only (asymptotic/measure-theoretic; no finite counterexample).",
+  "verdict_block": "iterates_bounded",
+  "verdict_evidence": "audit",
+  "refutations": [],
+  "triage": {
+    "suspects": [
+      {
+        "step": 2,
+        "suspicion": "Lemma 2 noise summability holds only on {sup||theta||<inf}; used unconditionally -> circular with Lemma 3",
+        "severity": "high"
+      },
+      {
+        "step": 3,
+        "suspicion": "Lemma 3 boundedness hand-waved; GAS of ODE does not imply discrete-iterate stability without extra (Borkar-Meyn h_inf) condition; reuses Lemma 2 which presupposed boundedness",
+        "severity": "high"
+      },
+      {
+        "step": 3,
+        "suspicion": "GAS does not make h point inward globally; no Lyapunov/radial condition",
+        "severity": "high"
+      },
+      {
+        "step": 4,
+        "suspicion": "Combine inherits boundedness gap; Benaim/Borkar ODE method requires boundedness as input",
+        "severity": "high"
+      },
+      {
+        "step": 4,
+        "suspicion": "overgeneralization to all RL algorithms ignores async/biased-noise/divergent FA cases",
+        "severity": "medium"
+      },
+      {
+        "step": 1,
+        "suspicion": "Picard-Lindelof gives local existence; global needs linear-growth from Lipschitz (minor)",
+        "severity": "low"
+      }
+    ],
+    "all_clear": false
+  },
+  "backtranslations": []
+}

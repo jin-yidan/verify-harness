@@ -1,0 +1,5 @@
+date	commit	fixture	detection	false_pos	kernel_backed	refuted_cert	kernel_refutations	verdict_evidence	overall
+2026-06-10	5a92045	successive_elimination_hp_regret	2/2	0	4/8	1	0		PASS
+2026-06-11	21a7ccb	ucb_regret_mutated	1/1	0	4/8	1	1	kernel	PASS
+2026-06-11	21a7ccb	expectation_sum_exchange_erratum	1/1	0	1/3	0	1	kernel	PASS
+2026-06-11	cc97e94	sa_ode_gas_circular	1/1	0	0/4	0	0	audit	PASS

@@ -1,0 +1,121 @@
+{
+  "fixture": "expectation_sum_exchange_erratum_bench",
+  "lemmas": [
+    {
+      "name": "finite_linearity",
+      "kind": "instantiation",
+      "library_match": "MeasureTheory.integral_finset_sum",
+      "statement": "E[sum_{i<=n} X_i] = sum_{i<=n} E[X_i] for finite n (each X_i integrable)",
+      "proof": "",
+      "code": "",
+      "compiled": false,
+      "compile_error": "",
+      "note": "",
+      "near_match": {
+        "claim_log_args": [],
+        "agrees": [],
+        "differs": [],
+        "substitutions": []
+      }
+    },
+    {
+      "name": "limit_exchange",
+      "kind": "novel",
+      "library_match": "",
+      "statement": "S_n -> X pointwise implies E[S_n] -> E[X] — WRONG without nonnegativity (MCT) or domination (DCT): escaping-mass counterexample Z_n = n*1_{(0,1/n]} has Z_n -> 0 pointwise on (0,1] but E[Z_n] = 1 for all n",
+      "proof": "",
+      "code": "",
+      "compiled": false,
+      "compile_error": "",
+      "note": "",
+      "near_match": {
+        "claim_log_args": [],
+        "agrees": [],
+        "differs": [],
+        "substitutions": []
+      }
+    },
+    {
+      "name": "rhs_series_convergence",
+      "kind": "novel",
+      "library_match": "",
+      "statement": "sum_i E[X_i] converges 'by definition of an infinite series' — unjustified in general, but holds in the counterexample (all zeros), so the fatal block is limit_exchange",
+      "proof": "",
+      "code": "",
+      "compiled": false,
+      "compile_error": "",
+      "note": "",
+      "near_match": {
+        "claim_log_args": [],
+        "agrees": [],
+        "differs": [],
+        "substitutions": []
+      }
+    }
+  ],
+  "main_statement": "",
+  "main_proof": "",
+  "main_code": "",
+  "compiled": false,
+  "compile_error": "",
+  "novel_added": [],
+  "axioms": [],
+  "kernel_axioms": [],
+  "has_sorry_ax": false,
+  "sketch_code": "",
+  "falsifications": [
+    {
+      "block": "limit_exchange",
+      "verdict": "SKIPPED",
+      "claim": "",
+      "instances": 0,
+      "hyp_satisfied": 0,
+      "violations": 0,
+      "max_violation": 0.0,
+      "tolerance": 1e-09,
+      "certificate": null,
+      "reason": "finite-DP mold does NOT apply: on any finite-outcome space pointwise convergence implies expectation convergence, so every finite truncation SATISFIES the claim — the failure requires an infinite space (escaping mass); refuted in Lean instead (see refutation)"
+    }
+  ],
+  "verdict": "UNVERIFIED/WRONG",
+  "verdict_reason": "the proposition is false as stated (author-acknowledged erratum: Lattimore-Szepesvari Prop 2.6 first printing; the corrected version adds E[sum |X_i|] exists). The proof's limit exchange 'S_n -> X pointwise therefore E[S_n] -> E[X]' fails without nonnegativity or domination: kernel-checked escaping-mass counterexample Z_n = n*1_{(0,1/n]} (Z_n -> 0 pointwise, E[Z_n] = 1). Statement-level counterexample: X_1 = Z_1, X_i = Z_i - Z_{i-1}: every E[X_i] exists, X = sum X_i = 0 pointwise, but sum E[X_i] = lim E[Z_n] = 1 != 0 = E[X]",
+  "verdict_block": "limit_exchange",
+  "verdict_evidence": "kernel",
+  "refutations": [
+    {
+      "block": "limit_exchange",
+      "description": "S_n -> X pointwise implies E[S_n] -> E[X] (the proof's 'therefore the left-hand side converges to E[X]'); counterexample Z_n = n*1_{(0,1/n]} on (0,1]: Z_n -> 0 pointwise yet integral Z_n = 1 for every n >= 1, so E[S_n] = 1 does not converge to E[lim S_n] = 0",
+      "theorem": "ErratumVerify.limit_exchange_counterexample",
+      "code": "import Mathlib\n\nopen MeasureTheory Filter Set\n\nnamespace ErratumVerify\n\n/-- Escaping-mass counterexample to the limit-exchange inference of the\nproposition's proof (\"Sₙ → X pointwise ⟹ E[Sₙ] → E[X]\"): on (0,1] with\nLebesgue measure, Z n = n·1_{(0,1/n]} tends to 0 at every point of (0,1],\nyet ∫ Z n = 1 for every n ≥ 1. Taking X₁ = Z 1, Xᵢ = Z i − Z (i−1) gives\npartial sums Sₙ = Z n with every E[Xᵢ] defined, X = Σᵢ Xᵢ = 0 pointwise,\nbut E[Sₙ] = 1 ↛ 0 = E[X]. -/\ntheorem limit_exchange_counterexample :\n    ∃ Z : ℕ → ℝ → ℝ,\n      (∀ x ∈ Set.Ioc (0:ℝ) 1,\n        Tendsto (fun n => Z n x) atTop (nhds 0)) ∧\n      (∀ n : ℕ, 1 ≤ n → ∫ x in Set.Ioc (0:ℝ) 1, Z n x = 1) := by\n  refine ⟨fun n x => Set.indicator (Set.Ioc (0:ℝ) (1 / (n:ℝ)))\n            (fun _ => (n : ℝ)) x, ?_, ?_⟩\n  · intro x hx\n    apply tendsto_atTop_of_eventually_const (i₀ := ⌈1 / x⌉₊ + 1)\n    intro n hn\n    have hx0 : 0 < x := hx.1\n    have h1n : 1 / (n : ℝ) < x := by\n      have hceil : (1 / x) ≤ (⌈1 / x⌉₊ : ℝ) := Nat.le_ceil _\n      have hnn : (⌈1 / x⌉₊ : ℝ) + 1 ≤ (n : ℝ) := by exact_mod_cast hn\n      have hnpos : (0:ℝ) < n := lt_of_lt_of_le (by positivity) hnn\n      rw [div_lt_iff₀ hnpos]\n      have h1x : 1 / x < (n : ℝ) := lt_of_le_of_lt hceil (by linarith)\n      calc (1:ℝ) = x * (1 / x) := by field_simp\n        _ < x * n := mul_lt_mul_of_pos_left h1x hx0\n    exact Set.indicator_of_notMem (fun hmem => absurd hmem.2 (not_le.mpr h1n)) _\n  · intro n hn\n    have hnR : (0:ℝ) < n := by exact_mod_cast hn\n    rw [setIntegral_indicator measurableSet_Ioc]\n    have hinter : Set.Ioc (0:ℝ) 1 ∩ Set.Ioc (0:ℝ) (1 / (n:ℝ)) =\n        Set.Ioc (0:ℝ) (1 / (n:ℝ)) := by\n      apply Set.inter_eq_self_of_subset_right\n      apply Set.Ioc_subset_Ioc_right\n      rw [div_le_one hnR]\n      exact_mod_cast hn\n    have h0 : (0:ℝ) ≤ 1 / (n:ℝ) - 0 := by rw [sub_zero]; positivity\n    rw [hinter, setIntegral_const, measureReal_def, Real.volume_Ioc,\n        ENNReal.toReal_ofReal h0, smul_eq_mul, sub_zero]\n    field_simp\n\nend ErratumVerify\n\n#print axioms ErratumVerify.limit_exchange_counterexample\n",
+      "compiled": true,
+      "kernel_axioms": [
+        "propext",
+        "Classical.choice",
+        "Quot.sound"
+      ],
+      "kernel_backed": true,
+      "artifact": "runs/expectation_sum_exchange_erratum_bench_20260611_124607_refute_limit_exchange.lean",
+      "error": ""
+    }
+  ],
+  "triage": {
+    "suspects": [
+      {
+        "step": 1,
+        "suspicion": "finite linearity needs E[X_i] summable without indeterminate inf-inf; 'E[X_i] exists' permits +-inf",
+        "severity": "medium"
+      },
+      {
+        "step": 2,
+        "suspicion": "fatal gap: pointwise convergence S_n -> X does not imply E[S_n] -> E[X]; needs MCT (nonnegative), DCT, or UI — classic counterexample: telescoping mass escaping to infinity gives E[X]=0 but lim E[S_n]=1",
+        "severity": "high"
+      },
+      {
+        "step": 3,
+        "suspicion": "series sum E[X_i] asserted to converge 'by definition' but nothing guarantees the partial sums converge",
+        "severity": "high"
+      }
+    ],
+    "all_clear": false
+  }
+}

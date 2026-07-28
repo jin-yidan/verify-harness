@@ -1,0 +1,3 @@
+Multiplication of real numbers is commutative, so a·b = b·a. Replacing
+multiplication by addition in that equality yields a + b = b + a.
+

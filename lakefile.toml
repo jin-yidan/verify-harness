@@ -1,0 +1,24 @@
+name = "RLGeneralization"
+version = "0.1.0"
+keywords = ["math"]
+defaultTargets = ["RLGeneralization"]
+
+[leanOptions]
+pp.unicode.fun = true # pretty-prints `fun a ↦ b`
+relaxedAutoImplicit = false
+weak.linter.mathlibStandardSet = true
+maxSynthPendingDepth = 3
+
+[[require]]
+name = "mathlib"
+scope = "leanprover-community"
+rev = "v4.28.0"
+
+[[require]]
+name = "SLT"
+git = "https://github.com/YuanheZ/lean-stat-learning-theory"
+rev = "4aaea15591360ccfffa1befdf0e7162f5af17f60"
+
+[[lean_lib]]
+name = "RLGeneralization"
+roots = ["RLGeneralization"]

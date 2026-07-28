@@ -1,0 +1,2 @@
+Substitute E = 3 and X = 5 into R = E + X. This gives R = 3 + 5 = 8.
+

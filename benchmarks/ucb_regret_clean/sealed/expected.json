@@ -1,0 +1,13 @@
+{
+  "fixture": "ucb_regret_clean",
+  "source": "clean_control",
+  "verdict_class": "VERIFIED",
+  "verdict_class_any": ["VERIFIED", "VERIFIED MODULO AXIOMS", "COMPILED",
+                        "HAS GAPS"],
+  "flaws": [],
+  "sound_block_hints": ["regret_decomposition", "threshold_split",
+                        "index_condition", "bad_events_contradiction",
+                        "hoeffding_fixed_pair", "tail_sum", "assembly"],
+  "expected_library_matches": [],
+  "min_kernel_backed_blocks": 2
+}

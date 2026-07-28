@@ -1,0 +1,23 @@
+# Claimed Theorem
+
+For every finite discounted MDP and every fixed `α ∈ (0,1)`, tabular
+Q-learning converges almost surely to `Q*` whenever every state-action pair is
+visited infinitely often.
+
+# Submitted Proof
+
+Let `T` be the Bellman optimality operator and let `T_hat_t` be the sampled
+Bellman target at time `t`. The Bellman operator is a `γ`-contraction.
+
+Because `Q*` is the fixed point of `T` and `T_hat_t` is a sample of `T`, claim
+that `T_hat_t Q* = Q*`. Therefore
+
+`Q_(t+1) - Q* = (1-α)(Q_t-Q*) + α(T_hat_t Q_t-T_hat_t Q*)`.
+
+Using the sampled contraction bound gives
+
+`||Q_(t+1)-Q*||∞ ≤ [1-α(1-γ)] ||Q_t-Q*||∞`.
+
+The factor is strictly below one, so the error converges geometrically to zero
+almost surely.
+

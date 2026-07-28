@@ -1,0 +1,4 @@
+Because c is nonnegative and 0 < s ≤ t, division by the larger positive
+denominator gives c/t ≤ c/s. Both quotients are nonnegative. Monotonicity of
+the real square root therefore gives √(c/t) ≤ √(c/s).
+

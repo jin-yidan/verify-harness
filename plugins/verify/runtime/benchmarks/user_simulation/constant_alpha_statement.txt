@@ -1,0 +1,3 @@
+For every finite discounted MDP and every fixed α ∈ (0,1), tabular Q-learning
+converges almost surely to Q* whenever every state-action pair is visited
+infinitely often.

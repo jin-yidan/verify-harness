@@ -1,0 +1,5 @@
+Assume √2 is rational and write it in lowest terms as p/q. Squaring shows that
+p is even, and then q is even, which contradicts lowest terms. The parity
+details and the passage between real, rational, and integer arithmetic are
+standard.
+

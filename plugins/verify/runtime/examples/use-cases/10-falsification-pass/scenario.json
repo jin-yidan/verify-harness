@@ -1,0 +1,18 @@
+{
+  "id": "falsification-pass",
+  "title": "A bounded counterexample search finds no witness",
+  "recommended_request": "Try to falsify this claim only; do not fully verify it.",
+  "primary_workflow": "falsify",
+  "situation": "The claim is true, but the selected workflow performs only bounded counterexample search.",
+  "expected": {
+    "likely": "NO_COUNTEREXAMPLE",
+    "allowed": ["NO_COUNTEREXAMPLE", "UNKNOWN"],
+    "must_not_report": ["VERIFIED", "REFUTED"],
+    "reason": "A falsification pass has zero proof weight even when the claim happens to be true."
+  },
+  "library_policy": {
+    "decision": "not-candidate",
+    "reason": "No proof certificate was produced, and the elementary inequality already exists in the base library."
+  }
+}
+

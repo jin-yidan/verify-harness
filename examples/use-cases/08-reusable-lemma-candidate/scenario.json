@@ -1,0 +1,25 @@
+{
+  "id": "reusable-lemma-candidate",
+  "title": "General atomic lemma that may merit shared-library promotion",
+  "recommended_request": "Fully verify this proof, then evaluate—but do not automatically save—the atomic lemma for future reuse.",
+  "primary_workflow": "full",
+  "situation": "The statement is domain-independent and can support confidence-radius, concentration, and optimization proofs.",
+  "expected": {
+    "likely": "VERIFIED",
+    "allowed": ["VERIFIED", "INCOMPLETE", "UNKNOWN"],
+    "must_not_report": ["REFUTED"],
+    "reason": "Verification and library promotion are separate decisions."
+  },
+  "library_policy": {
+    "decision": "evaluate",
+    "candidate_name": "Real.sqrt_div_antitone_right",
+    "reuse_reason": "Atomic monotonicity fact with plausible consumers in confidence-radius and normalized-bound proofs.",
+    "required_gates": [
+      "kernel-clean proof",
+      "exact statement back-translation",
+      "type-directed redundancy search",
+      "generality and hypothesis-minimality review"
+    ]
+  }
+}
+

@@ -1,0 +1,20 @@
+{
+  "fixture": "ucb1_hoeffding_at_random_count",
+  "source": "claude_authored_planted",
+  "verdict_class": "UNVERIFIED/HYPOTHESIS_VIOLATION",
+  "flaws": [
+    {
+      "id": "hoeffding_random_count",
+      "location": "Step 3",
+      "signature_keywords": ["random count", "N_t", "sample-dependent",
+                             "deterministic n", "fixed n", "union"],
+      "min_keyword_hits": 2
+    }
+  ],
+  "sound_block_hints": ["regret_decomposition", "ucb_three_way_split",
+                        "tail_sum_convergence"],
+  "expected_library_matches": [
+    "pseudoRegret_eq_sum_gap_mul_pullCount"
+  ],
+  "min_kernel_backed_blocks": 2
+}

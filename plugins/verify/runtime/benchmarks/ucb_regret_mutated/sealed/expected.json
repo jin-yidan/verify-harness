@@ -1,0 +1,18 @@
+{
+  "fixture": "ucb_regret_mutated",
+  "source": "mutation",
+  "verdict_class": "UNVERIFIED/WRONG",
+  "flaws": [
+    {
+      "id": "threshold_constant_halved",
+      "location": "Step 2",
+      "signature_keywords": ["8 ln", "8\\ln", "threshold", "counterexample",
+                             "contradiction fails", "factor"],
+      "min_keyword_hits": 2
+    }
+  ],
+  "sound_block_hints": ["regret_decomposition", "index_condition",
+                        "hoeffding_fixed_pair", "tail_sum"],
+  "expected_library_matches": [],
+  "min_kernel_backed_blocks": 2
+}

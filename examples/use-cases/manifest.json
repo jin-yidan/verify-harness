@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "fixture_convention": {
+    "statement": "statement.md",
+    "proof": "proof.txt",
+    "claim": "claim.txt",
+    "metadata": "scenario.json"
+  },
+  "cases": [
+    "01-valid-direct-proof",
+    "02-false-claim",
+    "03-true-theorem-bad-proof",
+    "04-missing-hypothesis",
+    "05-circular-proof",
+    "06-statement-mismatch",
+    "07-incomplete-proof",
+    "08-reusable-lemma-candidate",
+    "09-proof-specific-glue",
+    "10-falsification-pass",
+    "11-kernel-only-hidden-sorry"
+  ]
+}

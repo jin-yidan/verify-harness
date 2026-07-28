@@ -1,3 +1,15 @@
 .DS_Store
 __pycache__/
 *.py[cod]
+.venv/
+.lake/
+build/
+dist/
+*.egg-info/
+*.olean
+*.ilean
+*.trace
+rlverify-out/
+runs/
+.verify_tmp/
+harness/examples/out/
