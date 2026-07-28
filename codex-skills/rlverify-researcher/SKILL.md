@@ -6,7 +6,7 @@ description: Use the local RLVerify researcher CLI and harness to verify theorem
 # RLVerify Researcher
 
 Use the local RLVerify harness as the executable verification engine. Run it
-from the current `verified-skills` repository root, which contains
+from the current `verify-harness` repository root, which contains
 `harness/cli.py` and `rlverify/mcp_server.py`.
 
 ## Core Rules

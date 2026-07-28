@@ -1,6 +1,6 @@
 {
   "name": "verify",
-  "version": "0.1.0+codex.20260728051128",
+  "version": "0.1.0+codex.20260728051547",
   "description": "Automatically route mathematical proof, falsification, hypothesis-audit, retrieval, and Lean verification requests to the local Verify engine.",
   "author": {
     "name": "Verify Project"

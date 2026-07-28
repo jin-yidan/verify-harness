@@ -1,4 +1,4 @@
-# Verified Skills
+# Verify Harness
 
 A standalone distribution of Verify: agent routing, mathematical-verification
 workflows, the Python harness, and the `RLGeneralization` Lean library.
@@ -8,14 +8,14 @@ workflows, the Python harness, and the `RLGeneralization` Lean library.
 Codex:
 
 ```bash
-codex plugin marketplace add jin-yidan/verified-skills --ref main
+codex plugin marketplace add jin-yidan/verify-harness --ref main
 codex plugin add verify@verify
 ```
 
 Claude Code:
 
 ```bash
-claude plugin marketplace add https://github.com/jin-yidan/verified-skills.git
+claude plugin marketplace add https://github.com/jin-yidan/verify-harness.git
 claude plugin install verify@verify
 ```
 
