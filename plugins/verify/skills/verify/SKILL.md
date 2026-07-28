@@ -18,9 +18,28 @@ internal command or skill.
 
 ## First rule
 
-Choose exactly one internal workflow first. Read its `WORKFLOW.md`, then load
-only the references it requires. Compose another workflow later only when the
-user asks a follow-up that needs it.
+Choose exactly one route first. Read the route's canonical command completely,
+then read its `WORKFLOW.md` adapter and only the references that adapter
+requires. Compose another route later only when the user asks a follow-up that
+needs it.
+
+## Canonical command contract
+
+The files in this plugin's `commands/` directory are byte-for-byte copies of
+the repository's `.claude/commands/` files. They define the mathematical
+procedure. Routing selects one of those commands; it does not replace the
+command with a shorter prompt.
+
+The `workflows/` files enhance the selected command with plugin mechanics:
+runtime discovery, permission boundaries, pasted-input transport, persistence,
+sealed reviews, trusted recompilation, and result presentation. They may adapt
+a `VerifyDriver` operation to an equivalent product or MCP tool, but may not
+remove, reorder, weaken, or reinterpret the command's mathematical steps. If
+an adapter cannot faithfully execute a required step, report that capability
+gap instead of silently substituting a different workflow.
+
+Users may either speak naturally or invoke a packaged Claude command directly,
+for example `/verify:verify-full-process` or `/verify:verify-falsify`.
 
 ## Nested-harness guard
 
@@ -65,15 +84,15 @@ These are internal agent actions. Do not ask the researcher to type Python,
 
 ## Natural-language router
 
-| User intent | Read |
-|---|---|
-| Falsify, disprove, find a counterexample, try to break a claim | `workflows/falsify/WORKFLOW.md` |
-| Check assumptions, hypotheses, side conditions, lemma applications, or circularity | `workflows/hypotheses/WORKFLOW.md` |
-| Check whether formal and intended statements match | `workflows/statement/WORKFLOW.md` |
-| Find an already-formalized theorem or reusable lemma | `workflows/retrieve/WORKFLOW.md` |
-| Recompile or audit a saved `.lean` certificate | `workflows/recheck/WORKFLOW.md` |
-| Verify a proof/theorem, prove in Lean, or determine correctness | `workflows/full-check/WORKFLOW.md` |
-| Review, inspect, or identify suspicious proof steps | `workflows/triage/WORKFLOW.md` |
+| User intent | Canonical command | Enhancement adapter |
+|---|---|---|
+| Falsify, disprove, find a counterexample, try to break a claim | `commands/verify-falsify.md` | `workflows/falsify/WORKFLOW.md` |
+| Check assumptions, hypotheses, side conditions, lemma applications, or circularity | `commands/verify-hypothesis-audit.md` | `workflows/hypotheses/WORKFLOW.md` |
+| Check whether formal and intended statements match | `commands/verify-backtranslate.md` | `workflows/statement/WORKFLOW.md` |
+| Find an already-formalized theorem or reusable lemma | `commands/verify-resolve.md` | `workflows/retrieve/WORKFLOW.md` |
+| Recompile or audit a saved `.lean` certificate | `commands/verify-assemble.md` | `workflows/recheck/WORKFLOW.md` |
+| Verify a proof/theorem, prove in Lean, or determine correctness | `commands/verify-full-process.md` | `workflows/full-check/WORKFLOW.md` |
+| Review, inspect, or identify suspicious proof steps | `commands/verify-triage.md` | `workflows/triage/WORKFLOW.md` |
 
 ## Routing precedence
 

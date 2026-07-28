@@ -9,7 +9,7 @@
       "name": "verify",
       "source": "./plugins/verify",
       "description": "Automatically route mathematical verification requests to Lean-backed workflows.",
-      "version": "0.1.0+codex.20260728051547",
+      "version": "0.1.0+codex.20260728054502",
       "category": "Research"
     }
   ]

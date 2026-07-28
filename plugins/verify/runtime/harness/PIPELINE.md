@@ -1,10 +1,12 @@
 # RLVerify Harness — Pipeline (as built)
 
-The normative mathematical procedures are
+Every file in `.claude/commands/` is a normative mathematical workflow.
+The full-proof and paper paths load
 `.claude/commands/verify-full-process.md` and
-`.claude/commands/verifyRL-paper.md`. Their exact text and SHA-256 provenance
-are loaded at runtime. This document describes the executable harness/MCP
-binding for those golden instructions; it does not supersede them.
+`.claude/commands/verifyRL-paper.md` with exact SHA-256 provenance at runtime.
+Other product routes select their corresponding command in the same canonical
+registry. This document describes executable harness/MCP enhancements for
+those golden instructions; it does not supersede them.
 
 How a verification actually flows through the **bring-your-own-agent (BYO)
 harness** — the path where a *third-party* agent (its own Claude/Codex account)

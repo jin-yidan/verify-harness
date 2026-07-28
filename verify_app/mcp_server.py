@@ -20,6 +20,7 @@ import uuid
 from pathlib import Path
 from typing import Any
 
+from harness.golden import command_for_intent
 from harness.telemetry import events_after
 from rlverify.driver import DEFAULT_CORPUS
 from rlverify.retriever import PremiseRetriever
@@ -138,6 +139,7 @@ def _matching_saved_state(name: str, expected_hash: str) -> bool:
 def route_request(request: str) -> dict[str, Any]:
     """Return the deterministic Verify route without starting any workflow."""
     decision = route(request)
+    command = command_for_intent(decision.intent.value)
     label, boundary = _ROUTE_UI.get(
         decision.intent.value,
         ("No verification route", "No Verify workflow has started."),
@@ -147,6 +149,7 @@ def route_request(request: str) -> dict[str, Any]:
         "confidence": decision.confidence,
         "reason": decision.reason,
         "forbids_full_check": decision.forbids_full_check,
+        "canonical_command": command.provenance() if command else None,
         "receipt": {
             "title": f"Verify \u2192 {label}",
             "scope": boundary,

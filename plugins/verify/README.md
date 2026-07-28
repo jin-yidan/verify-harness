@@ -3,7 +3,14 @@
 Verify is a dual Codex and Claude Code plugin for automatically routing
 mathematical proof-checking requests to the local Lean-backed Verify engine.
 
-Users speak naturally; they do not invoke Verify skills or internal commands.
+Users can speak naturally or invoke the packaged canonical commands directly,
+such as `/verify:verify-falsify` and `/verify:verify-full-process`.
+
+The plugin's `commands/` files are byte-for-byte copies of the repository's
+`.claude/commands/` specifications. Natural-language routing selects one exact
+command first. Workflow adapters then add runtime setup, permissions,
+persistence, sealed gates, and trusted rechecks without replacing the
+mathematical procedure.
 
 The cached plugin includes the complete engine source, a portable launcher,
 and a permissioned first-use runtime manager. On the first relevant request,

@@ -16,8 +16,32 @@ ROOT = Path(__file__).resolve().parent.parent
 GOLDEN_DIR = ROOT / ".claude" / "commands"
 
 _FILES = {
+    "audit-papers": "audit-papers.md",
+    "expand-library": "expand-library.md",
+    "extract-proofs": "extract-proofs.md",
+    "formalize": "formalize.md",
+    "verify-assemble": "verify-assemble.md",
+    "verify-backtranslate": "verify-backtranslate.md",
+    "verify-discharge": "verify-discharge.md",
+    "verify-falsify": "verify-falsify.md",
     "verify-full-process": "verify-full-process.md",
+    "verify-hypothesis-audit": "verify-hypothesis-audit.md",
+    "verify-library": "verify-library.md",
+    "verify-output-contract": "verify-output-contract.md",
+    "verify-resolve": "verify-resolve.md",
+    "verify-sketch": "verify-sketch.md",
+    "verify-triage": "verify-triage.md",
     "verifyRL-paper": "verifyRL-paper.md",
+}
+
+_INTENT_COMMANDS = {
+    "falsify": "verify-falsify",
+    "hypotheses": "verify-hypothesis-audit",
+    "check": "verify-full-process",
+    "statement": "verify-backtranslate",
+    "retrieve": "verify-resolve",
+    "recheck": "verify-assemble",
+    "triage": "verify-triage",
 }
 
 _REQUIRED_SECTIONS = {
@@ -77,9 +101,10 @@ def load_golden_workflow(name: str) -> GoldenWorkflow:
     except KeyError as exc:
         raise ValueError(f"unknown golden workflow: {name}") from exc
     path = GOLDEN_DIR / filename
-    text = path.read_text()
+    payload = path.read_bytes()
+    text = payload.decode()
     missing = [
-        section for section in _REQUIRED_SECTIONS[name]
+        section for section in _REQUIRED_SECTIONS.get(name, ())
         if section not in text
     ]
     if missing:
@@ -90,8 +115,14 @@ def load_golden_workflow(name: str) -> GoldenWorkflow:
         name=name,
         path=path,
         text=text,
-        sha256=hashlib.sha256(text.encode()).hexdigest(),
+        sha256=hashlib.sha256(payload).hexdigest(),
     )
+
+
+def command_for_intent(intent: str) -> GoldenWorkflow | None:
+    """Return the exact command specification selected by a product route."""
+    name = _INTENT_COMMANDS.get(intent)
+    return load_golden_workflow(name) if name else None
 
 
 def golden_manifest(*names: str) -> dict[str, dict[str, str]]:
