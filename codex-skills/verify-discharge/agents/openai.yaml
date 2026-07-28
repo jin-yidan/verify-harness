@@ -1,0 +1,7 @@
+interface:
+  display_name: "Verify Discharge"
+  short_description: "Discharge one proof block in Lean"
+  default_prompt: "Use $verify-discharge to run the corresponding RLVerify command."
+
+policy:
+  allow_implicit_invocation: true

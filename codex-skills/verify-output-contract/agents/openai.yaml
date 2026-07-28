@@ -1,0 +1,7 @@
+interface:
+  display_name: "Verify Output Contract"
+  short_description: "Use RLVerify result card semantics"
+  default_prompt: "Use $verify-output-contract to run the corresponding RLVerify command."
+
+policy:
+  allow_implicit_invocation: true

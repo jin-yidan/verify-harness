@@ -1,0 +1,7 @@
+interface:
+  display_name: "Verify Assemble"
+  short_description: "Run assemble and kernel audit"
+  default_prompt: "Use $verify-assemble to run the corresponding RLVerify command."
+
+policy:
+  allow_implicit_invocation: true

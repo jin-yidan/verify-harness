@@ -1,0 +1,7 @@
+interface:
+  display_name: "RLVerify Researcher"
+  short_description: "Verify and audit math proofs with RLVerify"
+  default_prompt: "Use $rlverify-researcher to verify this theorem and proof with the local RLVerify harness."
+
+policy:
+  allow_implicit_invocation: true

@@ -1,0 +1,7 @@
+interface:
+  display_name: "Verify Triage"
+  short_description: "Run adversarial prose triage"
+  default_prompt: "Use $verify-triage to run the corresponding RLVerify command."
+
+policy:
+  allow_implicit_invocation: true

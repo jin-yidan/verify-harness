@@ -1,0 +1,7 @@
+interface:
+  display_name: "Extract Proofs"
+  short_description: "Extract RL paper proof fixtures"
+  default_prompt: "Use $extract-proofs to run the corresponding RLVerify command."
+
+policy:
+  allow_implicit_invocation: true

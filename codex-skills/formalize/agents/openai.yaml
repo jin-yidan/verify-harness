@@ -1,0 +1,7 @@
+interface:
+  display_name: "Formalize"
+  short_description: "Formalize math theorems in Lean 4"
+  default_prompt: "Use $formalize to run the corresponding RLVerify command."
+
+policy:
+  allow_implicit_invocation: true

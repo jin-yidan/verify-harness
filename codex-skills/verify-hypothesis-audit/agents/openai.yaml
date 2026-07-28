@@ -1,0 +1,7 @@
+interface:
+  display_name: "Verify Hypothesis Audit"
+  short_description: "Audit hidden proof hypotheses"
+  default_prompt: "Use $verify-hypothesis-audit to run the corresponding RLVerify command."
+
+policy:
+  allow_implicit_invocation: true

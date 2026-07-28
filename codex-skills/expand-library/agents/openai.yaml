@@ -1,0 +1,7 @@
+interface:
+  display_name: "Expand Library"
+  short_description: "Grow the Lean RL verification corpus"
+  default_prompt: "Use $expand-library to run the corresponding RLVerify command."
+
+policy:
+  allow_implicit_invocation: true

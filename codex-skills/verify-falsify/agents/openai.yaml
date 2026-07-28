@@ -1,0 +1,7 @@
+interface:
+  display_name: "Verify Falsify"
+  short_description: "Falsify one mathematical claim"
+  default_prompt: "Use $verify-falsify to run the corresponding RLVerify command."
+
+policy:
+  allow_implicit_invocation: true

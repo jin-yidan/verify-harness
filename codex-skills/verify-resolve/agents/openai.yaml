@@ -1,0 +1,7 @@
+interface:
+  display_name: "Verify Resolve"
+  short_description: "Resolve proof blocks against corpus"
+  default_prompt: "Use $verify-resolve to run the corresponding RLVerify command."
+
+policy:
+  allow_implicit_invocation: true

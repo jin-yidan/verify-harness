@@ -1,0 +1,15 @@
+{
+  "mcpServers": {
+    "verify": {
+      "command": "python",
+      "args": [
+        "-c",
+        "import os,runpy,sys; from pathlib import Path; root=Path(os.environ.get('CLAUDE_PLUGIN_ROOT','.')); scripts=root/'scripts'; sys.path.insert(0,str(scripts)); runpy.run_path(str(scripts/'verify_mcp_launcher.py'),run_name='__main__')"
+      ],
+      "cwd": ".",
+      "env": {
+        "RLVERIFY_SANDBOX": "1"
+      }
+    }
+  }
+}

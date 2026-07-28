@@ -1,0 +1,16 @@
+{
+  "name": "verify",
+  "owner": {
+    "name": "Verify Project"
+  },
+  "description": "Local preview marketplace for the Lean-backed Verify plugin.",
+  "plugins": [
+    {
+      "name": "verify",
+      "source": "./plugins/verify",
+      "description": "Automatically route mathematical verification requests to Lean-backed workflows.",
+      "version": "0.1.0+codex.20260724020744",
+      "category": "Research"
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "name": "verify",
+  "version": "0.1.0+codex.20260724020744",
+  "description": "Automatically route mathematical proof, falsification, hypothesis-audit, retrieval, and Lean verification requests to the local Verify engine.",
+  "author": {
+    "name": "Verify Project"
+  },
+  "keywords": [
+    "lean4",
+    "mathematics",
+    "statistics",
+    "reinforcement-learning",
+    "proof-verification"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Verify",
+    "shortDescription": "Lean-backed checking for mathematical proofs",
+    "longDescription": "Use ordinary language to falsify mathematical claims, audit proof hypotheses, search formal libraries, and run trusted Lean verification.",
+    "developerName": "Verify Project",
+    "category": "Research",
+    "capabilities": [
+      "Read",
+      "Execute"
+    ],
+    "defaultPrompt": [
+      "Try to falsify the claim in this proof first.",
+      "Check whether this proof satisfies every hypothesis.",
+      "Fully verify this theorem and proof in Lean."
+    ],
+    "brandColor": "#375A7F"
+  },
+  "mcpServers": "./.mcp.json"
+}

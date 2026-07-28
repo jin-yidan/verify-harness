@@ -1,0 +1,7 @@
+interface:
+  display_name: "Verify Full Process"
+  short_description: "Verify a theorem and proof end to end"
+  default_prompt: "Use $verify-full-process to run the corresponding RLVerify command."
+
+policy:
+  allow_implicit_invocation: true

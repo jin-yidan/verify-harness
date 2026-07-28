@@ -1,0 +1,7 @@
+interface:
+  display_name: "Verify Sketch"
+  short_description: "Check proof skeleton glue"
+  default_prompt: "Use $verify-sketch to run the corresponding RLVerify command."
+
+policy:
+  allow_implicit_invocation: true

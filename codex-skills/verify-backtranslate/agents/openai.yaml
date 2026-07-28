@@ -1,0 +1,7 @@
+interface:
+  display_name: "Verify Backtranslate"
+  short_description: "Run sealed back-translation audit"
+  default_prompt: "Use $verify-backtranslate to run the corresponding RLVerify command."
+
+policy:
+  allow_implicit_invocation: true

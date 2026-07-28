@@ -1,0 +1,15 @@
+{
+  "name": "verify",
+  "version": "0.1.0+codex.20260724020744",
+  "description": "Automatically route mathematical proof, falsification, hypothesis-audit, retrieval, and Lean verification requests to the local Verify engine.",
+  "author": {
+    "name": "Verify Project"
+  },
+  "keywords": [
+    "lean4",
+    "mathematics",
+    "statistics",
+    "reinforcement-learning",
+    "proof-verification"
+  ]
+}

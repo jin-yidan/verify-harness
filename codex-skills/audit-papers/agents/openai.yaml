@@ -1,0 +1,7 @@
+interface:
+  display_name: "Audit Papers"
+  short_description: "Audit RL theory papers with RLVerify"
+  default_prompt: "Use $audit-papers to run the corresponding RLVerify command."
+
+policy:
+  allow_implicit_invocation: true
