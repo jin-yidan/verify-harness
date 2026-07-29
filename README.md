@@ -92,6 +92,47 @@ counterexample to the complete theorem yields `UNVERIFIED/WRONG`; a refuted
 proof step yields `UNVERIFIED/PROOF_INVALID` and does not by itself show that
 the theorem is false.
 
+## Plugin harness flow
+
+The plugin wraps the canonical command with runtime management and a trusted
+parent harness. The proof agent can construct Lean evidence through MCP, but it
+cannot author the sealed audit records or the final trusted verdict.
+
+```mermaid
+flowchart TD
+    request["User request<br/>natural language or /verify:verify-full-process"]
+    routing["Plugin routing<br/>select the canonical command and workflow adapter"]
+    runtime["Runtime preflight and permissioned setup<br/>bundled engine · pinned Lean · isolated user data"]
+    contract["Resolve the input and Lean contract<br/>show scope, assumptions, and estimate"]
+    confirmation{"Confirm the full run?"}
+    prepared["Stop before verification"]
+
+    reviews["Trusted preflight reviews<br/>sealed triage · targeted confirmation<br/>sealed hypothesis and circularity audit"]
+    preflight{"Preflight route"}
+
+    fullAgent["Untrusted proof agent<br/>complete verification"]
+    structuralAgent["Untrusted structural continuation<br/>preserve independent correct blocks"]
+    engine["Verify MCP and sandboxed Lean driver<br/>search · sketch · discharge · assemble · journal"]
+
+    handoff["Trusted journal handoff and evidence checks<br/>stamp sealed reviews · recompile Lean<br/>back-translate the formal statement"]
+    enforcement["Enforce kernel closure,<br/>required gates, and workflow coverage"]
+    report["Final report<br/>verdict · evidence · artifacts · telemetry"]
+
+    request --> routing --> runtime --> contract --> confirmation
+    confirmation -- "No" --> prepared
+    confirmation -- "Yes" --> reviews --> preflight
+
+    preflight -- "Clear, not confirmed,<br/>or unresolved" --> fullAgent
+    preflight -- "Confirmed negative finding" --> structuralAgent
+    fullAgent --> engine
+    structuralAgent --> engine
+    engine --> handoff --> enforcement --> report
+```
+
+The trusted runner is the verdict boundary: an agent-side compile alone cannot
+produce `VERIFIED`. Provider failures, missing gates, or incomplete evidence
+are reported without being promoted to a mathematical conclusion.
+
 ## Run from a clone
 
 Requirements: Python 3.10 or newer and Lean through `elan`.
