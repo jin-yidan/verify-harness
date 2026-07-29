@@ -100,7 +100,7 @@ cannot author the sealed audit records or the final trusted verdict.
 
 ```mermaid
 flowchart TD
-    request["User request<br/>natural language or /verify:verify-full-process"]
+    request["Start full verification<br/>Natural-language request"]
     routing["Plugin routing<br/>select the canonical command and workflow adapter"]
     runtime["Runtime preflight and permissioned setup<br/>bundled engine · pinned Lean · isolated user data"]
     contract["Resolve the input and Lean contract<br/>show scope, assumptions, and estimate"]
